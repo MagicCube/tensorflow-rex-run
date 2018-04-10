@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>T-Rex Runner - A Multiplayer Version</title>
-  <script src="/assets/index.js"></script>
+  <script src="/assets/vendors.js"></script>
 </head>
 <body id="t" class="offline">
   <div id="main-frame-error" class="interstitial-wrapper">
@@ -13,10 +13,6 @@
       <div class="icon icon-offline" alt=""></div>
     </div>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      new Runner('.interstitial-wrapper');
-    });
-  </script>
+  <script src="/assets/index.js"></script>
 </body>
 </html>
