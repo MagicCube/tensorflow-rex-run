@@ -1,4 +1,5 @@
-import { CANVAS_WIDTH, CANVAS_HEIGHT, FPS } from './constants';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
+import { getFPS } from './RuntimeConfig';
 import { getImageSprite, setImageSprite, loadImageSprite } from './ImageSprite';
 import { getTimeStamp } from './utils';
 import DistanceMeter from './DistanceMeter';
@@ -109,7 +110,7 @@ export default class Runner {
 
     this.time = 0;
     this.runningTime = 0;
-    this.msPerFrame = 1000 / FPS;
+    this.msPerFrame = 1000 / getFPS();
     this.currentSpeed = this.config.SPEED;
 
     this.obstacles = [];

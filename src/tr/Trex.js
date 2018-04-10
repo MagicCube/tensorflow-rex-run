@@ -1,9 +1,9 @@
 import {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
-  FPS,
   RUNNER_BOTTOM_PAD
 } from './constants';
+import { getFPS } from './RuntimeConfig';
 import { getImageSprite } from './ImageSprite';
 import { getTimeStamp } from './utils';
 import CollisionBox from './CollisionBox';
@@ -106,7 +106,7 @@ export default class Trex {
     this.blinkCount = 0;
     this.animStartTime = 0;
     this.timer = 0;
-    this.msPerFrame = 1000 / FPS;
+    this.msPerFrame = 1000 / getFPS();
     this.config = Trex.config;
     // Current status.
     this.status = Trex.status.WAITING;

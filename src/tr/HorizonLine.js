@@ -1,4 +1,4 @@
-import { FPS } from './constants';
+import { getFPS } from './RuntimeConfig';
 import { getImageSprite } from './ImageSprite';
 
 /**
@@ -112,7 +112,7 @@ export default class HorizonLine {
    * @param {number} speed
    */
   update(deltaTime, speed) {
-    const increment = Math.floor(speed * (FPS / 1000) * deltaTime);
+    const increment = Math.floor(speed * (getFPS() / 1000) * deltaTime);
 
     if (this.xPos[0] <= 0) {
       this.updateXPos(0, increment);
