@@ -6,53 +6,55 @@ import Obstacle from './Obstacle';
 
 /**
  * Horizon background class.
- * @param {HTMLCanvasElement} canvas
- * @param {Object} spritePos Sprite positioning.
- * @param {Object} dimensions Canvas dimensions.
- * @param {number} gapCoefficient
- * @constructor
  */
-export default function Horizon(canvas, spritePos, dimensions, gapCoefficient) {
-  this.canvas = canvas;
-  this.canvasCtx = this.canvas.getContext('2d');
-  this.config = Horizon.config;
-  this.dimensions = dimensions;
-  this.gapCoefficient = gapCoefficient;
-  this.obstacles = [];
-  this.obstacleHistory = [];
-  this.horizonOffsets = [0, 0];
-  this.cloudFrequency = this.config.CLOUD_FREQUENCY;
-  this.spritePos = spritePos;
+export default class Horizon {
+  /**
+   * Horizon config.
+   * @enum {number}
+   */
+  static config = {
+    BG_CLOUD_SPEED: 0.2,
+    BUMPY_THRESHOLD: 0.3,
+    CLOUD_FREQUENCY: 0.5,
+    HORIZON_HEIGHT: 16,
+    MAX_CLOUDS: 6
+  };
 
-  // Cloud
-  this.clouds = [];
-  this.cloudSpeed = this.config.BG_CLOUD_SPEED;
+  /*
+   * @param {HTMLCanvasElement} canvas
+   * @param {Object} spritePos Sprite positioning.
+   * @param {Object} dimensions Canvas dimensions.
+   * @param {number} gapCoefficient
+   * @constructor
+   */
+  constructor(canvas, spritePos, dimensions, gapCoefficient) {
+    this.canvas = canvas;
+    this.canvasCtx = this.canvas.getContext('2d');
+    this.config = Horizon.config;
+    this.dimensions = dimensions;
+    this.gapCoefficient = gapCoefficient;
+    this.obstacles = [];
+    this.obstacleHistory = [];
+    this.horizonOffsets = [0, 0];
+    this.cloudFrequency = this.config.CLOUD_FREQUENCY;
+    this.spritePos = spritePos;
 
-  // Horizon
-  this.horizonLine = null;
-  this.init();
-}
+    // Cloud
+    this.clouds = [];
+    this.cloudSpeed = this.config.BG_CLOUD_SPEED;
 
-/**
- * Horizon config.
- * @enum {number}
- */
-Horizon.config = {
-  BG_CLOUD_SPEED: 0.2,
-  BUMPY_THRESHOLD: 0.3,
-  CLOUD_FREQUENCY: 0.5,
-  HORIZON_HEIGHT: 16,
-  MAX_CLOUDS: 6
-};
+    // Horizon
+    this.horizonLine = null;
+    this.init();
+  }
 
-Horizon.prototype = {
   /**
    * Initialise the horizon. Just add the line and a cloud. No obstacles.
    */
   init() {
     this.addCloud();
     this.horizonLine = new HorizonLine(this.canvas, this.spritePos.HORIZON);
-  },
+  }
 
   /**
    * @param {number} deltaTime
@@ -69,7 +71,7 @@ Horizon.prototype = {
     if (updateObstacles) {
       this.updateObstacles(deltaTime, currentSpeed);
     }
-  },
+  }
 
   /**
    * Update the cloud positions.
@@ -101,7 +103,7 @@ Horizon.prototype = {
     } else {
       this.addCloud();
     }
-  },
+  }
 
   /**
    * Update the obstacle positions.
@@ -140,11 +142,11 @@ Horizon.prototype = {
       // Create new obstacles.
       this.addNewObstacle(currentSpeed);
     }
-  },
+  }
 
   removeFirstObstacle() {
     this.obstacles.shift();
-  },
+  }
 
   /**
    * Add a new obstacle.
@@ -182,7 +184,7 @@ Horizon.prototype = {
         this.obstacleHistory.splice(RUNNER_MAX_OBSTACLE_DUPLICATION);
       }
     }
-  },
+  }
 
   /**
    * Returns whether the previous two obstacles are the same as the next one.
@@ -197,7 +199,7 @@ Horizon.prototype = {
         this.obstacleHistory[i] === nextObstacleType ? duplicateCount + 1 : 0;
     }
     return duplicateCount >= RUNNER_MAX_OBSTACLE_DUPLICATION;
-  },
+  }
 
   /**
    * Reset the horizon layer.
@@ -206,7 +208,7 @@ Horizon.prototype = {
   reset() {
     this.obstacles = [];
     this.horizonLine.reset();
-  },
+  }
 
   /**
    * Update the canvas width and scaling.
@@ -216,7 +218,7 @@ Horizon.prototype = {
   resize(width, height) {
     this.canvas.width = width;
     this.canvas.height = height;
-  },
+  }
 
   /**
    * Add a new cloud to the horizon.
@@ -226,4 +228,4 @@ Horizon.prototype = {
       new Cloud(this.canvas, this.spritePos.CLOUD, this.dimensions.WIDTH)
     );
   }
-};
+}
