@@ -225,7 +225,6 @@
      * @return {boolean}
      */
     isDisabled() {
-      // return loadTimeData && loadTimeData.valueExists('disabledEasterEgg');
       return false;
     },
 
@@ -281,48 +280,20 @@
      */
     loadImages() {
       if (IS_HIDPI) {
-        Runner.imageSprite = document.getElementById('offline-resources-2x');
+        Runner.imageSprite = document.createElement('img');
+        Runner.imageSprite.src = require('./images/2x/200-offline-sprite.png');
         this.spriteDef = Runner.spriteDefinition.HDPI;
       } else {
-        Runner.imageSprite = document.getElementById('offline-resources-1x');
+        Runner.imageSprite = document.createElement('img');
+        Runner.imageSprite.src = require('./images/1x/100-offline-sprite.png');
         this.spriteDef = Runner.spriteDefinition.LDPI;
       }
 
-      if (Runner.imageSprite.complete) {
-        this.init();
-      } else {
-        // If the images are not yet loaded, add a listener.
-        Runner.imageSprite.addEventListener(
-          Runner.events.LOAD,
-          this.init.bind(this)
-        );
-      }
-    },
-
-    /**
-     * Load and decode base 64 encoded sounds.
-     */
-    loadSounds() {
-      if (!IS_IOS) {
-        this.audioContext = new AudioContext();
-
-        const resourceTemplate = document.getElementById(this.config.RESOURCE_TEMPLATE_ID).content;
-
-        for (const sound in Runner.sounds) {
-          let soundSrc = resourceTemplate.getElementById(Runner.sounds[sound])
-            .src;
-          soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
-          const buffer = decodeBase64ToArrayBuffer(soundSrc);
-
-          // Async, so no guarantee of order in array.
-          this.audioContext.decodeAudioData(
-            buffer,
-            function (index, audioData) {
-              this.soundFx[index] = audioData;
-            }.bind(this, sound)
-          );
+      setTimeout(() => {
+        if (Runner.imageSprite.complete) {
+          this.init();
         }
-      }
+      }, 1000);
     },
 
     /**
@@ -601,10 +572,6 @@
           Math.ceil(this.distanceRan)
         );
 
-        if (playAchievementSound) {
-          this.playSound(this.soundFx.SCORE);
-        }
-
         // Night mode.
         if (this.invertTimer > this.config.INVERT_FADE_DURATION) {
           this.invertTimer = 0;
@@ -715,7 +682,6 @@
             e.type == Runner.events.TOUCHSTART)
         ) {
           if (!this.playing) {
-            this.loadSounds();
             this.playing = true;
             this.update();
             if (window.errorPageController) {
@@ -724,7 +690,6 @@
           }
           //  Play sound effect and jump on starting the game for the first time.
           if (!this.tRex.jumping && !this.tRex.ducking) {
-            this.playSound(this.soundFx.BUTTON_PRESS);
             this.tRex.startJump(this.currentSpeed);
           }
         }
@@ -822,9 +787,6 @@
      * Game over state.
      */
     gameOver() {
-      this.playSound(this.soundFx.HIT);
-      vibrate(200);
-
       this.stop();
       this.crashed = true;
       this.distanceMeter.acheivement = false;
@@ -884,7 +846,6 @@
         this.distanceMeter.reset(this.highestScore);
         this.horizon.reset();
         this.tRex.reset();
-        this.playSound(this.soundFx.BUTTON_PRESS);
         this.invert(true);
         this.update();
       }
@@ -904,19 +865,6 @@
       } else if (!this.crashed) {
         this.tRex.reset();
         this.play();
-      }
-    },
-
-    /**
-     * Play a sound.
-     * @param {SoundBuffer} soundBuffer
-     */
-    playSound(soundBuffer) {
-      if (soundBuffer) {
-        const sourceNode = this.audioContext.createBufferSource();
-        sourceNode.buffer = soundBuffer;
-        sourceNode.connect(this.audioContext.destination);
-        sourceNode.start(0);
       }
     },
 
@@ -992,16 +940,6 @@
    */
   function getRandomNum(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  /**
-   * Vibrate on mobile devices.
-   * @param {number} duration Duration of the vibration in milliseconds.
-   */
-  function vibrate(duration) {
-    if (IS_MOBILE && window.navigator.vibrate) {
-      window.navigator.vibrate(duration);
-    }
   }
 
   /**
