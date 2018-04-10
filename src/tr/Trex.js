@@ -21,7 +21,6 @@ export default class Trex {
     HEIGHT: 47,
     HEIGHT_DUCK: 25,
     INIITAL_JUMP_VELOCITY: -10,
-    INTRO_DURATION: 1500,
     MAX_JUMP_HEIGHT: 30,
     MIN_JUMP_HEIGHT: 30,
     SPEED_DROP_COEFFICIENT: 3,
@@ -163,13 +162,6 @@ export default class Trex {
         this.animStartTime = getTimeStamp();
         this.setBlinkDelay();
       }
-    }
-
-    // Game intro animation, T-rex moves in from the left.
-    if (this.playingIntro && this.xPos < this.config.START_X_POS) {
-      this.xPos += Math.round(
-        this.config.START_X_POS / this.config.INTRO_DURATION * deltaTime
-      );
     }
 
     if (this.status === Trex.status.WAITING) {
