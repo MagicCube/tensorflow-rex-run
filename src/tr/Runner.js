@@ -118,7 +118,6 @@ export default class Runner {
     this.activated = false; // Whether the easter egg has been activated.
     this.playing = false; // Whether the game is currently in play state.
     this.crashed = false;
-    this.paused = false;
     this.resizeTimerId_ = null;
 
     this.playCount = 0;
@@ -246,7 +245,7 @@ export default class Runner {
       this.tRex.update(0);
 
       // Outer container and distance meter.
-      if (this.playing || this.crashed || this.paused) {
+      if (this.playing || this.crashed) {
         this.containerEl.style.width = `${this.dimensions.WIDTH}px`;
         this.containerEl.style.height = `${this.dimensions.HEIGHT}px`;
         this.distanceMeter.update(0, Math.ceil(this.distanceRan));
@@ -442,10 +441,6 @@ export default class Runner {
       if (Runner.keycodes.JUMP[keyCode]) {
         this.restart();
       }
-    } else if (this.paused && isJumpKey) {
-      // Reset the jump state
-      this.tRex.reset();
-      this.play();
     }
   }
 
@@ -492,7 +487,6 @@ export default class Runner {
 
   stop() {
     this.playing = false;
-    this.paused = true;
     cancelAnimationFrame(this.raqId);
     this.raqId = 0;
   }
@@ -500,7 +494,6 @@ export default class Runner {
   play() {
     if (!this.crashed) {
       this.playing = true;
-      this.paused = false;
       this.tRex.update(0, Trex.status.RUNNING);
       this.time = getTimeStamp();
       this.update();
