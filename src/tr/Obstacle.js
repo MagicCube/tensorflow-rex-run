@@ -3,6 +3,16 @@ import { getImageSprite } from './ImageSprite';
 import { getRandomNum } from './utils';
 import CollisionBox from './CollisionBox';
 
+/**
+ * Obstacle.
+ * @param {HTMLCanvasCtx} canvasCtx
+ * @param {Obstacle.type} type
+ * @param {Object} spritePos Obstacle position in sprite.
+ * @param {Object} dimensions
+ * @param {number} gapCoefficient Mutipler in determining the gap.
+ * @param {number} speed
+ * @param {number} offset
+ */
 export default class Obstacle {
   /**
    * Coefficient for calculating the maximum gap.
@@ -65,18 +75,8 @@ export default class Obstacle {
       frameRate: 1000 / 6,
       speedOffset: 0.8
     }
-  ]
+  ];
 
-  /**
-   * Obstacle.
-   * @param {HTMLCanvasCtx} canvasCtx
-   * @param {Obstacle.type} type
-   * @param {Object} spritePos Obstacle position in sprite.
-   * @param {Object} dimensions
-   * @param {number} gapCoefficient Mutipler in determining the gap.
-   * @param {number} speed
-   * @param {number} offset
-   */
   constructor(
     canvasCtx,
     type,

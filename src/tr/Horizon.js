@@ -6,6 +6,11 @@ import Obstacle from './Obstacle';
 
 /**
  * Horizon background class.
+ * @param {HTMLCanvasElement} canvas
+ * @param {Object} spritePos Sprite positioning.
+ * @param {Object} dimensions Canvas dimensions.
+ * @param {number} gapCoefficient
+ * @constructor
  */
 export default class Horizon {
   /**
@@ -20,13 +25,6 @@ export default class Horizon {
     MAX_CLOUDS: 6
   };
 
-  /*
-   * @param {HTMLCanvasElement} canvas
-   * @param {Object} spritePos Sprite positioning.
-   * @param {Object} dimensions Canvas dimensions.
-   * @param {number} gapCoefficient
-   * @constructor
-   */
   constructor(canvas, spritePos, dimensions, gapCoefficient) {
     this.canvas = canvas;
     this.canvasCtx = this.canvas.getContext('2d');

@@ -1,8 +1,19 @@
-import { CANVAS_WIDTH, CANVAS_HEIGHT, FPS, RUNNER_BOTTOM_PAD } from './constants';
+import {
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  FPS,
+  RUNNER_BOTTOM_PAD
+} from './constants';
 import { getImageSprite } from './ImageSprite';
 import { getTimeStamp } from './utils';
 import CollisionBox from './CollisionBox';
 
+/**
+ * T-rex game character.
+ * @param {HTMLCanvas} canvas
+ * @param {Object} spritePos Positioning within image sprite.
+ * @constructor
+ */
 export default class Trex {
   static config = {
     DROP_VELOCITY: -5,
@@ -81,12 +92,6 @@ export default class Trex {
     }
   };
 
-  /**
-   * T-rex game character.
-   * @param {HTMLCanvas} canvas
-   * @param {Object} spritePos Positioning within image sprite.
-   * @constructor
-   */
   constructor(canvas, spritePos) {
     this.canvas = canvas;
     this.canvasCtx = canvas.getContext('2d');
@@ -122,10 +127,7 @@ export default class Trex {
    * Sets the t-rex to blink at random intervals.
    */
   init() {
-    this.groundYPos =
-      CANVAS_HEIGHT -
-      this.config.HEIGHT -
-      RUNNER_BOTTOM_PAD;
+    this.groundYPos = CANVAS_HEIGHT - this.config.HEIGHT - RUNNER_BOTTOM_PAD;
     this.yPos = this.groundYPos;
     this.minJumpHeight = this.groundYPos - this.config.MIN_JUMP_HEIGHT;
 
@@ -371,7 +373,6 @@ export default class Trex {
   }
 }
 
-
 /**
  * Check for a collision.
  * @param {!Obstacle} obstacle
@@ -498,4 +499,3 @@ function boxCompare(tRexBox, obstacleBox) {
 
   return crashed;
 }
-

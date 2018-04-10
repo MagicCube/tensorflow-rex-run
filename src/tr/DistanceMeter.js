@@ -1,5 +1,12 @@
 import { getImageSprite } from './ImageSprite';
 
+/**
+ * Handles displaying the distance meter.
+ * @param {!HTMLCanvasElement} canvas
+ * @param {Object} spritePos Image position in sprite.
+ * @param {number} canvasWidth
+ * @constructor
+ */
 export default class DistanceMeter {
   static dimensions = {
     WIDTH: 10,
@@ -26,13 +33,6 @@ export default class DistanceMeter {
     FLASH_ITERATIONS: 3
   };
 
-  /**
-   * Handles displaying the distance meter.
-   * @param {!HTMLCanvasElement} canvas
-   * @param {Object} spritePos Image position in sprite.
-   * @param {number} canvasWidth
-   * @constructor
-   */
   constructor(canvas, spritePos, canvasWidth) {
     this.canvas = canvas;
     this.canvasCtx = canvas.getContext('2d');

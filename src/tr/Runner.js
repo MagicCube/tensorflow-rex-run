@@ -5,6 +5,13 @@ import DistanceMeter from './DistanceMeter';
 import Horizon from './Horizon';
 import Trex, { checkForCollision } from './Trex';
 
+/**
+ * T-Rex runner.
+ * @param {string} outerContainerId Outer containing element id.
+ * @param {Object} options
+ * @constructor
+ * @export
+ */
 export default class Runner {
   static config = {
     ACCELERATION: 0.001,
@@ -71,17 +78,7 @@ export default class Runner {
     LOAD: 'load'
   };
 
-  /**
-   * T-Rex runner.
-   * @param {string} outerContainerId Outer containing element id.
-   * @param {Object} options
-   * @constructor
-   * @export
-   */
-  constructor(
-    outerContainerId,
-    options
-  ) {
+  constructor(outerContainerId, options) {
     // Singleton
     if (Runner.instance_) {
       return Runner.instance_;
@@ -419,8 +416,12 @@ export default class Runner {
    * Bind relevant key
    */
   startListening() {
-    document.addEventListener(Runner.events.KEYDOWN, (e) => { this.onKeyDown(e); });
-    document.addEventListener(Runner.events.KEYUP, (e) => { this.onKeyUp(e); });
+    document.addEventListener(Runner.events.KEYDOWN, (e) => {
+      this.onKeyDown(e);
+    });
+    document.addEventListener(Runner.events.KEYUP, (e) => {
+      this.onKeyUp(e);
+    });
   }
 
   /**
