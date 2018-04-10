@@ -4,7 +4,8 @@
   "description": "A multiplayer version of T-Rex Runner. T-Rex Runner is an easter egg game inside chrome.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development"
   },
   "keywords": [
     "t-rex",
@@ -18,9 +19,21 @@
   "author": "Henry Li <henry1943@163.com>",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.10.0"
+    "eslint-plugin-import": "^2.10.0",
+    "file-loader": "^1.1.11",
+    "less": "^3.0.1",
+    "less-loader": "^4.1.0",
+    "style-loader": "^0.20.3",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.3"
   }
 }
