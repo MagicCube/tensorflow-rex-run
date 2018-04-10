@@ -396,23 +396,6 @@ export default class Runner {
   }
 
   /**
-   * Event handler.
-   */
-  handleEvent({ type }) {
-    const { events } = Runner;
-    switch (type) {
-      case events.KEYDOWN:
-        this.onKeyDown(events);
-        break;
-      case events.KEYUP:
-        this.onKeyUp(events);
-        break;
-      default:
-        break;
-    }
-  }
-
-  /**
    * Bind relevant key
    */
   startListening() {
