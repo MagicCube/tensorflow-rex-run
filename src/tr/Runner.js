@@ -139,6 +139,7 @@ export default class Runner {
 
     this.containerEl = document.createElement('div');
     this.containerEl.className = Runner.classes.CONTAINER;
+    this.containerEl.style.width = `${this.dimensions.WIDTH}px`;
 
     // Player canvas container.
     this.canvas = createCanvas(
@@ -180,6 +181,8 @@ export default class Runner {
       Runner.events.RESIZE,
       this.debounceResize.bind(this)
     );
+
+    this.restart();
   }
 
   /**
@@ -238,45 +241,10 @@ export default class Runner {
   }
 
   /**
-   * Play the game intro.
-   * Canvas container width expands out to the full width.
-   */
-  playIntro() {
-    if (!this.activated && !this.crashed) {
-      this.playingIntro = true;
-      this.tRex.playingIntro = true;
-
-      // CSS animation definition.
-      const keyframes =
-        `${'@-webkit-keyframes intro { from { width:'}${
-          Trex.config.WIDTH
-        }px }` +
-        `to { width: ${this.dimensions.WIDTH}px }` +
-        '}';
-      document.styleSheets[0].insertRule(keyframes, 0);
-
-      this.containerEl.addEventListener(
-        Runner.events.ANIM_END,
-        this.startGame.bind(this)
-      );
-
-      this.containerEl.style.webkitAnimation = 'intro .4s ease-out 1 both';
-      this.containerEl.style.width = `${this.dimensions.WIDTH}px`;
-
-      this.playing = true;
-      this.activated = true;
-    } else if (this.crashed) {
-      this.restart();
-    }
-  }
-
-  /**
    * Update the game status to started.
    */
   startGame() {
     this.runningTime = 0;
-    this.playingIntro = false;
-    this.tRex.playingIntro = false;
     this.containerEl.style.webkitAnimation = '';
     this.playCount += 1;
   }
@@ -310,18 +278,17 @@ export default class Runner {
       this.runningTime += deltaTime;
       const hasObstacles = this.runningTime > this.config.CLEAR_TIME;
 
-      // First jump triggers the intro.
-      if (this.tRex.jumpCount === 1 && !this.playingIntro) {
-        this.playIntro();
+      // First time
+      if (this.tRex.jumpCount === 1) {
+        if (!this.activated && !this.crashed) {
+          this.playing = true;
+          this.activated = true;
+          this.startGame();
+        }
       }
 
-      // The horizon doesn't move until the intro is over.
-      if (this.playingIntro) {
-        this.horizon.update(0, this.currentSpeed, hasObstacles);
-      } else {
-        deltaTime = !this.activated ? 0 : deltaTime;
-        this.horizon.update(deltaTime, this.currentSpeed, hasObstacles);
-      }
+      deltaTime = !this.activated ? 0 : deltaTime;
+      this.horizon.update(deltaTime, this.currentSpeed, hasObstacles);
 
       // Check for collisions.
       const collision =
@@ -337,7 +304,7 @@ export default class Runner {
         this.gameOver();
       }
 
-      const playAchievementSound = this.distanceMeter.update(
+      this.distanceMeter.update(
         deltaTime,
         Math.ceil(this.distanceRan)
       );
@@ -369,24 +336,22 @@ export default class Runner {
    * @param {Event} e
    */
   onKeyDown(e) {
-    if (e.target !== this.detailsButton) {
-      if (!this.crashed && Runner.keycodes.JUMP[e.keyCode]) {
-        this.restart();
+    if (!this.crashed && this.playing) {
+      if (Runner.keycodes.JUMP[e.keyCode]) {
+        e.preventDefault();
+        this.tRex.startJump(this.currentSpeed);
+      } else if (Runner.keycodes.DUCK[e.keyCode]) {
+        e.preventDefault();
+        if (this.tRex.jumping) {
+          // Speed drop, activated only when jump key is not pressed.
+          this.tRex.setSpeedDrop();
+        } else if (!this.tRex.jumping && !this.tRex.ducking) {
+          // Duck.
+          this.tRex.setDuck(true);
+        }
       }
-      if (this.crashed && e.currentTarget === this.containerEl) {
-        this.restart();
-      }
-    }
-
-    if (this.playing && !this.crashed && Runner.keycodes.DUCK[e.keyCode]) {
-      e.preventDefault();
-      if (this.tRex.jumping) {
-        // Speed drop, activated only when jump key is not pressed.
-        this.tRex.setSpeedDrop();
-      } else if (!this.tRex.jumping && !this.tRex.ducking) {
-        // Duck.
-        this.tRex.setDuck(true);
-      }
+    } else if (this.crashed) {
+      this.restart();
     }
   }
 
