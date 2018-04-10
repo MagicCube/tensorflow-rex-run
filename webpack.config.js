@@ -1,3 +1,4 @@
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
 const ASSETS_SOURCE_PATH = path.resolve('./src');
@@ -7,7 +8,8 @@ const ASSETS_PUBLIC_PATH = '/assets';
 module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
-    index: ['./index.js', './index.less']
+    vendors: ['./vendors/index.js'],
+    index: ['./index.js']
   },
   output: {
     path: ASSETS_BUILD_PATH,
@@ -48,5 +50,8 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new CleanWebpackPlugin([ASSETS_BUILD_PATH], { verbose: false })
+  ]
 };
