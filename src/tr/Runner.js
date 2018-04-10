@@ -306,22 +306,6 @@ export default class Runner {
     this.tRex.playingIntro = false;
     this.containerEl.style.webkitAnimation = '';
     this.playCount += 1;
-
-    // Handle tabbing off the page. Pause the current game.
-    document.addEventListener(
-      Runner.events.VISIBILITY,
-      this.onVisibilityChange.bind(this)
-    );
-
-    window.addEventListener(
-      Runner.events.BLUR,
-      this.onVisibilityChange.bind(this)
-    );
-
-    window.addEventListener(
-      Runner.events.FOCUS,
-      this.onVisibilityChange.bind(this)
-    );
   }
 
   clearCanvas() {
@@ -537,23 +521,6 @@ export default class Runner {
       this.horizon.reset();
       this.tRex.reset();
       this.update();
-    }
-  }
-
-  /**
-   * Pause the game if the tab is not in focus.
-   */
-  onVisibilityChange(e) {
-    if (
-      document.hidden ||
-      document.webkitHidden ||
-      e.type === 'blur' ||
-      document.visibilityState !== 'visible'
-    ) {
-      this.stop();
-    } else if (!this.crashed) {
-      this.tRex.reset();
-      this.play();
     }
   }
 
