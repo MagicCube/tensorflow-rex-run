@@ -145,11 +145,9 @@ export default class DistanceMeter {
    * Update the distance meter.
    * @param {number} distance
    * @param {number} deltaTime
-   * @return {boolean} Whether the acheivement sound fx should be played.
    */
   update(deltaTime, distance) {
     let paint = true;
-    let playSound = false;
 
     if (!this.acheivement) {
       distance = this.getActualDistance(distance);
@@ -167,10 +165,8 @@ export default class DistanceMeter {
       if (distance > 0) {
         // Acheivement unlocked
         if (distance % this.config.ACHIEVEMENT_DISTANCE === 0) {
-          // Flash score and play sound.
           this.acheivement = true;
           this.flashTimer = 0;
-          playSound = true;
         }
 
         // Create a string representation of the distance with leading 0.
@@ -204,7 +200,6 @@ export default class DistanceMeter {
     }
 
     this.drawHighScore();
-    return playSound;
   }
   /**
    * Draw the high score.
