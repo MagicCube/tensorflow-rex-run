@@ -381,7 +381,7 @@ export default class Trex {
  *    collision boxes.
  * @return {Array<CollisionBox>}
  */
-export function checkForCollision(obstacle, tRex, canvasContext) {
+export function checkForCollision(obstacle, tRex) {
   const obstacleBoxXPos = CANVAS_WIDTH + obstacle.xPos;
 
   // Adjustments are made to the bounding box as there is a 1 pixel white
@@ -399,11 +399,6 @@ export function checkForCollision(obstacle, tRex, canvasContext) {
     obstacle.typeConfig.width * obstacle.size - 2,
     obstacle.typeConfig.height - 2
   );
-
-  // Debug outer box
-  if (canvasContext) {
-    drawCollisionBoxes(canvasContext, tRexBox, obstacleBox);
-  }
 
   // Simple outer bounds check.
   if (boxCompare(tRexBox, obstacleBox)) {
@@ -425,11 +420,6 @@ export function checkForCollision(obstacle, tRex, canvasContext) {
           obstacleBox
         );
         const crashed = boxCompare(adjTrexBox, adjObstacleBox);
-
-        // Draw boxes for debug.
-        if (canvasContext) {
-          drawCollisionBoxes(canvasContext, adjTrexBox, adjObstacleBox);
-        }
 
         if (crashed) {
           return [adjTrexBox, adjObstacleBox];
@@ -453,24 +443,6 @@ function createAdjustedCollisionBox(box, adjustment) {
     box.width,
     box.height
   );
-}
-
-/**
- * Draw the collision boxes for debug.
- */
-function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
-  canvasCtx.save();
-  canvasCtx.strokeStyle = '#f00';
-  canvasCtx.strokeRect(tRexBox.x, tRexBox.y, tRexBox.width, tRexBox.height);
-
-  canvasCtx.strokeStyle = '#0f0';
-  canvasCtx.strokeRect(
-    obstacleBox.x,
-    obstacleBox.y,
-    obstacleBox.width,
-    obstacleBox.height
-  );
-  canvasCtx.restore();
 }
 
 /**
