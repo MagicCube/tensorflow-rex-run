@@ -183,33 +183,6 @@ export default class Runner {
   }
 
   /**
-   * Setting individual settings for debugging.
-   * @param {string} setting
-   * @param {*} value
-   */
-  updateConfigSetting(setting, value) {
-    if (setting in this.config && value !== undefined) {
-      this.config[setting] = value;
-
-      switch (setting) {
-        case 'GRAVITY':
-        case 'MIN_JUMP_HEIGHT':
-        case 'SPEED_DROP_COEFFICIENT':
-          this.tRex.config[setting] = value;
-          break;
-        case 'INITIAL_JUMP_VELOCITY':
-          this.tRex.setJumpVelocity(value);
-          break;
-        case 'SPEED':
-          this.setSpeed(value);
-          break;
-        default:
-          break;
-      }
-    }
-  }
-
-  /**
    * Debounce the resize event.
    */
   debounceResize() {
@@ -398,14 +371,7 @@ export default class Runner {
   onKeyDown(e) {
     if (e.target !== this.detailsButton) {
       if (!this.crashed && Runner.keycodes.JUMP[e.keyCode]) {
-        if (!this.playing) {
-          this.playing = true;
-          this.update();
-        }
-        //  Jump on starting the game for the first time.
-        if (!this.tRex.jumping && !this.tRex.ducking) {
-          this.tRex.startJump(this.currentSpeed);
-        }
+        this.restart();
       }
       if (this.crashed && e.currentTarget === this.containerEl) {
         this.restart();
@@ -515,6 +481,12 @@ export default class Runner {
       this.horizon.reset();
       this.tRex.reset();
       this.update();
+    } else {
+      if (!this.playing) {
+        this.playing = true;
+        this.update();
+      }
+      this.tRex.startJump(this.currentSpeed);
     }
   }
 
