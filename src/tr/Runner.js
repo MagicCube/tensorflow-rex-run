@@ -86,6 +86,7 @@ export default class Runner {
     }
     Runner.instance_ = this;
 
+    this.isFirstTime = false;
     this.outerContainerEl = document.querySelector(outerContainerId);
     this.containerEl = null;
     this.snackbarEl = null;
@@ -279,7 +280,7 @@ export default class Runner {
       const hasObstacles = this.runningTime > this.config.CLEAR_TIME;
 
       // First time
-      if (this.tRex.jumpCount === 1) {
+      if (this.isFirstTime) {
         if (!this.activated && !this.crashed) {
           this.playing = true;
           this.activated = true;
@@ -447,11 +448,12 @@ export default class Runner {
       this.tRex.reset();
       this.update();
     } else {
+      this.isFirstTime = true;
       if (!this.playing) {
         this.playing = true;
         this.update();
       }
-      this.tRex.startJump(this.currentSpeed);
+      this.tRex.reset();
     }
   }
 
