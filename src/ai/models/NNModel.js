@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 
-const HIDDEN_LAYER_SIZE = 3;
+const HIDDEN_LAYER_SIZE = 4;
 const INPUT_SIZE = 3;
 const OUTPUT_SIZE = 2;
 
