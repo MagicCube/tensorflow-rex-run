@@ -1,13 +1,17 @@
 {
-  "name": "t-rex-runner-multipleplayer",
+  "name": "t-rex-run",
   "version": "1.0.0",
-  "description": "A multiplayer version of T-Rex Runner. T-Rex Runner is an easter egg game inside chrome.",
+  "description": "A TensorFlow.js based AI player platform for T-Rex Runner. T-Rex Runner is originally an easter egg game inside chrome.",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development"
   },
   "keywords": [
+    "tensorflow",
+    "tensorflow.js",
+    "neural network",
+    "ai",
     "t-rex",
     "runner",
     "chrome",
