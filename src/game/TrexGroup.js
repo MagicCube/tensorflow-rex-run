@@ -49,7 +49,8 @@ export default class TrexGroup {
   checkForCollision(obstacle) {
     let crashes = 0;
     const state = {
-      obstacleDistance: obstacle.xPos,
+      obstacleX: obstacle.xPos,
+      obstacleY: obstacle.yPos,
       obstacleWidth: obstacle.width,
       speed: Runner.instance_.currentSpeed
     };

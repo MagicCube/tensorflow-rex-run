@@ -1,5 +1,5 @@
 import { predict, train } from './ai/models/InceptionModel';
-import { CANVAS_WIDTH } from './game/constants';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from './game/constants';
 import Runner from './game/Runner';
 
 import './game/index.less';
@@ -39,8 +39,9 @@ function handleCrash({ tRex }) {
 
 function convertStateToVector(state) {
   return [
-    state.obstacleDistance / CANVAS_WIDTH,
-    state.obstacleWidth / CANVAS_WIDTH
+    state.obstacleX / CANVAS_WIDTH,
+    state.obstacleWidth / CANVAS_WIDTH,
+    state.speed / 100
   ];
 }
 

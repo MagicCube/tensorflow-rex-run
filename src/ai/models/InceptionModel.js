@@ -1,7 +1,9 @@
 import * as tf from '@tensorflow/tfjs';
 
-const weights = tf.variable(tf.randomNormal([2, 2]));
-const bias = tf.variable(tf.scalar(Math.random()));
+const weights1 = tf.variable(tf.randomNormal([3, 4]));
+const weights2 = tf.variable(tf.randomNormal([4, 2]));
+const bias1 = tf.variable(tf.scalar(Math.random()));
+const bias2 = tf.variable(tf.scalar(Math.random()));
 
 const optimizer = tf.train.adam(0.1);
 
@@ -9,7 +11,9 @@ export function predict(arrX) {
   const x = tf.tensor(arrX);
   // y = sigmoid(wx + b)
   const prediction = tf.tidy(
-    () => tf.sigmoid(x.matMul(weights).add(bias))
+    () => tf.sigmoid(tf.matMul(
+      tf.sigmoid(x.matMul(weights1).add(bias1)), weights2
+    ).add(bias2))
   );
   return prediction;
 }
