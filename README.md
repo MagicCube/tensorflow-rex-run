@@ -27,3 +27,23 @@ Visit the [official website](https://js.tensorflow.org/) to discover more.
 * Multiplayer mode supported (means you can use genetic algorithm now)
 * Events like `onReset`, `onRunning` and `onCrushed` are supported
 * Example models are provided
+
+
+---
+
+
+## How to Install
+
+```sh
+npm install
+```
+
+
+## How to Run
+
+
+```sh
+npm start
+```
+
+Visit http://localhost:8080
