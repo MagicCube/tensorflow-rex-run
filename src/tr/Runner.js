@@ -30,7 +30,9 @@ export default class Runner {
     MIN_JUMP_HEIGHT: 35,
     RESOURCE_TEMPLATE_ID: 'audio-resources',
     SPEED: 6,
-    SPEED_DROP_COEFFICIENT: 3
+    SPEED_DROP_COEFFICIENT: 3,
+    onRunning: noop,
+    onCrash: noop
   };
 
   static classes = {
@@ -94,9 +96,6 @@ export default class Runner {
     this.detailsButton = this.outerContainerEl.querySelector('#details-button');
 
     this.config = Object.assign({}, Runner.config, options);
-    if (typeof this.config.onStateChange !== 'function') {
-      this.config.onStateChange = noop;
-    }
 
     this.dimensions = {
       WIDTH: CANVAS_WIDTH,
@@ -176,7 +175,8 @@ export default class Runner {
 
     // Draw t-rex
     this.tRexGroup = new TrexGroup(10, this.canvas, this.spriteDef.TREX);
-    this.tRexGroup.onStateChange = this.config.onStateChange;
+    this.tRexGroup.onRunning = this.config.onRunning;
+    this.tRexGroup.onCrash = this.config.onCrash;
     this.tRex = this.tRexGroup.tRexes[0];
 
     this.outerContainerEl.appendChild(this.containerEl);

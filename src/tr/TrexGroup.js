@@ -2,12 +2,14 @@ import Runner from './Runner';
 import Trex, { checkForCollision } from './Trex';
 
 export default class TrexGroup {
-  onStateChange = noop;
+  onRunning = noop;
+  onCrash = noop;
 
   constructor(count, canvas, spriteDef) {
     this.tRexes = [];
     for (let i = 0; i < count; i += 1) {
       const tRex = new Trex(canvas, spriteDef);
+      tRex.id = i;
       this.tRexes.push(tRex);
     }
   }
@@ -52,10 +54,20 @@ export default class TrexGroup {
         const result = checkForCollision(obstacle, tRex);
         if (result) {
           crashes += 1;
+          tRex.crashed = true;
+          this.onCrash({ tRex, state });
         } else {
-          const action = this.onStateChange({ jumping: tRex.jumping, ...state });
+          const action = this.onRunning({ tRex, state });
           if (action === 1) {
             tRex.startJump();
+          } else if (action === -1) {
+            if (tRex.jumping) {
+              // Speed drop, activated only when jump key is not pressed.
+              tRex.setSpeedDrop();
+            } else if (!tRex.jumping && !tRex.ducking) {
+              // Duck.
+              tRex.setDuck(true);
+            }
           }
         }
       } else {

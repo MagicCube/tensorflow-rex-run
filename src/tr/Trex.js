@@ -419,7 +419,6 @@ export function checkForCollision(obstacle, tRex) {
         const crashed = boxCompare(adjTrexBox, adjObstacleBox);
 
         if (crashed) {
-          tRex.crashed = true;
           return [adjTrexBox, adjObstacleBox];
         }
       }
