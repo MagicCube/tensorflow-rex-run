@@ -1,7 +1,11 @@
 import * as tf from '@tensorflow/tfjs';
 
-const weights1 = tf.variable(tf.randomNormal([3, 4]));
-const weights2 = tf.variable(tf.randomNormal([4, 2]));
+const HIDDEN_LAYER_SIZE = 3;
+const INPUT_SIZE = 3;
+const OUTPUT_SIZE = 2;
+
+const weights1 = tf.variable(tf.randomNormal([INPUT_SIZE, HIDDEN_LAYER_SIZE]));
+const weights2 = tf.variable(tf.randomNormal([HIDDEN_LAYER_SIZE, OUTPUT_SIZE]));
 const bias1 = tf.variable(tf.scalar(Math.random()));
 const bias2 = tf.variable(tf.scalar(Math.random()));
 
