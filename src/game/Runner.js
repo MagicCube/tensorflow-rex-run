@@ -15,7 +15,7 @@ import TrexGroup from './TrexGroup';
  * @export
  */
 export default class Runner {
-  static iteration = 0;
+  static generation = 0;
 
   static config = {
     ACCELERATION: 0.001,
@@ -94,9 +94,9 @@ export default class Runner {
 
     this.isFirstTime = false;
     this.outerContainerEl = document.querySelector(outerContainerId);
+    this.generationEl = document.querySelector('.generation');
     this.containerEl = null;
     this.snackbarEl = null;
-    this.detailsButton = this.outerContainerEl.querySelector('#details-button');
 
     this.config = Object.assign({}, Runner.config, options);
 
@@ -466,8 +466,8 @@ export default class Runner {
       }
       this.tRexGroup.reset();
     }
-    Runner.iteration += 1;
-    console.info(`Start iteration #${Runner.iteration}.`);
+    Runner.generation += 1;
+    this.generationEl.innerText = `Generation #${Runner.generation}`;
   }
 
   /**
