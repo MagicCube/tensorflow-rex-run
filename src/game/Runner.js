@@ -18,7 +18,7 @@ export default class Runner {
   static config = {
     ACCELERATION: 0.001,
     BG_CLOUD_SPEED: 0.2,
-    CLEAR_TIME: 3000,
+    CLEAR_TIME: 200,
     CLOUD_FREQUENCY: 0.5,
     GAP_COEFFICIENT: 0.6,
     GRAVITY: 0.6,
@@ -31,6 +31,7 @@ export default class Runner {
     RESOURCE_TEMPLATE_ID: 'audio-resources',
     SPEED: 6,
     SPEED_DROP_COEFFICIENT: 3,
+    onReset: noop,
     onRunning: noop,
     onCrash: noop
   };
@@ -174,7 +175,8 @@ export default class Runner {
     );
 
     // Draw t-rex
-    this.tRexGroup = new TrexGroup(10, this.canvas, this.spriteDef.TREX);
+    this.tRexGroup = new TrexGroup(1, this.canvas, this.spriteDef.TREX);
+    this.tRexGroup.onReset = this.config.onReset;
     this.tRexGroup.onRunning = this.config.onRunning;
     this.tRexGroup.onCrash = this.config.onCrash;
     this.tRex = this.tRexGroup.tRexes[0];
@@ -421,6 +423,10 @@ export default class Runner {
 
     // Reset the time clock.
     this.time = getTimeStamp();
+
+    setTimeout(() => {
+      this.restart();
+    }, 500);
   }
 
   stop() {

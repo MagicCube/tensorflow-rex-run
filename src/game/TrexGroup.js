@@ -2,6 +2,7 @@ import Runner from './Runner';
 import Trex, { checkForCollision } from './Trex';
 
 export default class TrexGroup {
+  onReset = noop;
   onRunning = noop;
   onCrash = noop;
 
@@ -39,7 +40,10 @@ export default class TrexGroup {
   }
 
   reset() {
-    this.tRexes.forEach(tRex => tRex.reset());
+    this.tRexes.forEach((tRex) => {
+      tRex.reset();
+      this.onReset({ tRex });
+    });
   }
 
   checkForCollision(obstacle) {
