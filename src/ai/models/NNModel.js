@@ -9,7 +9,7 @@ const weights2 = tf.variable(tf.randomNormal([HIDDEN_LAYER_SIZE, OUTPUT_SIZE]));
 const bias1 = tf.variable(tf.scalar(Math.random()));
 const bias2 = tf.variable(tf.scalar(Math.random()));
 
-const optimizer = tf.train.adam(0.1);
+const optimizer = tf.train.adam(0.01);
 
 export function predict(arrX) {
   const x = tf.tensor(arrX);
