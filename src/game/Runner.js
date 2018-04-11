@@ -15,10 +15,12 @@ import TrexGroup from './TrexGroup';
  * @export
  */
 export default class Runner {
+  static iteration = 0;
+
   static config = {
     ACCELERATION: 0.001,
     BG_CLOUD_SPEED: 0.2,
-    CLEAR_TIME: 200,
+    CLEAR_TIME: 100,
     CLOUD_FREQUENCY: 0.5,
     GAP_COEFFICIENT: 0.6,
     GRAVITY: 0.6,
@@ -412,9 +414,6 @@ export default class Runner {
 
     this.tRexGroup.update(100, Trex.status.CRASHED);
 
-    // Game over panel.
-    console.info('Game Over');
-
     // Update the high score.
     if (this.distanceRan > this.highestScore) {
       this.highestScore = Math.ceil(this.distanceRan);
@@ -467,6 +466,8 @@ export default class Runner {
       }
       this.tRexGroup.reset();
     }
+    Runner.iteration += 1;
+    console.info(`Start iteration #${Runner.iteration}.`);
   }
 
   /**
