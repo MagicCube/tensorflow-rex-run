@@ -28,6 +28,7 @@
         ]
       }
     ],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "prefer-destructuring": "off"
   }
 }
