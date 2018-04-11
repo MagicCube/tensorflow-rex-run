@@ -7,6 +7,7 @@ import { getFPS } from './RuntimeConfig';
 import { getImageSprite } from './ImageSprite';
 import { getTimeStamp } from './utils';
 import CollisionBox from './CollisionBox';
+import Runner from './Runner';
 
 /**
  * T-rex game character.
@@ -268,6 +269,9 @@ export default class Trex {
    * @param {number} speed
    */
   startJump(speed) {
+    if (speed === undefined) {
+      speed = Runner.instance_.currentSpeed;
+    }
     if (!this.jumping) {
       this.update(0, Trex.status.JUMPING);
       // Tweak the jump velocity based on the speed.
@@ -362,6 +366,7 @@ export default class Trex {
     this.midair = false;
     this.speedDrop = false;
     this.jumpCount = 0;
+    this.crashed = false;
   }
 }
 
@@ -414,6 +419,7 @@ export function checkForCollision(obstacle, tRex) {
         const crashed = boxCompare(adjTrexBox, adjObstacleBox);
 
         if (crashed) {
+          tRex.crashed = true;
           return [adjTrexBox, adjObstacleBox];
         }
       }

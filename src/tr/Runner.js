@@ -5,6 +5,7 @@ import { getTimeStamp } from './utils';
 import DistanceMeter from './DistanceMeter';
 import Horizon from './Horizon';
 import Trex, { checkForCollision } from './Trex';
+import TrexGroup from './TrexGroup';
 
 /**
  * T-Rex runner.
@@ -92,7 +93,10 @@ export default class Runner {
     this.snackbarEl = null;
     this.detailsButton = this.outerContainerEl.querySelector('#details-button');
 
-    this.config = options || Runner.config;
+    this.config = Object.assign({}, Runner.config, options);
+    if (typeof this.config.onStateChange !== 'function') {
+      this.config.onStateChange = noop;
+    }
 
     this.dimensions = {
       WIDTH: CANVAS_WIDTH,
@@ -171,7 +175,9 @@ export default class Runner {
     );
 
     // Draw t-rex
-    this.tRex = new Trex(this.canvas, this.spriteDef.TREX);
+    this.tRexGroup = new TrexGroup(10, this.canvas, this.spriteDef.TREX);
+    this.tRexGroup.onStateChange = this.config.onStateChange;
+    this.tRex = this.tRexGroup.tRexes[0];
 
     this.outerContainerEl.appendChild(this.containerEl);
 
@@ -219,7 +225,7 @@ export default class Runner {
       this.distanceMeter.calcXPos(this.dimensions.WIDTH);
       this.clearCanvas();
       this.horizon.update(0, 0, true);
-      this.tRex.update(0);
+      this.tRexGroup.update(0);
 
       // Outer container and distance meter.
       if (this.playing || this.crashed) {
@@ -228,7 +234,7 @@ export default class Runner {
         this.distanceMeter.update(0, Math.ceil(this.distanceRan));
         this.stop();
       } else {
-        this.tRex.draw(0, 0);
+        this.tRexGroup.draw(0, 0);
       }
     }
   }
@@ -272,9 +278,7 @@ export default class Runner {
     if (this.playing) {
       this.clearCanvas();
 
-      if (this.tRex.jumping) {
-        this.tRex.updateJump(deltaTime);
-      }
+      this.tRexGroup.updateJump(deltaTime);
 
       this.runningTime += deltaTime;
       const hasObstacles = this.runningTime > this.config.CLEAR_TIME;
@@ -291,11 +295,13 @@ export default class Runner {
       deltaTime = !this.activated ? 0 : deltaTime;
       this.horizon.update(deltaTime, this.currentSpeed, hasObstacles);
 
+      let gameOver = false;
       // Check for collisions.
-      const collision =
-        hasObstacles && checkForCollision(this.horizon.obstacles[0], this.tRex);
+      if (hasObstacles) {
+        gameOver = this.tRexGroup.checkForCollision(this.horizon.obstacles[0]);
+      }
 
-      if (!collision) {
+      if (!gameOver) {
         this.distanceRan += this.currentSpeed * deltaTime / this.msPerFrame;
 
         if (this.currentSpeed < this.config.MAX_SPEED) {
@@ -313,9 +319,9 @@ export default class Runner {
 
     if (
       this.playing ||
-      (!this.activated && this.tRex.blinkCount < Runner.config.MAX_BLINK_COUNT)
+      (!this.activated)
     ) {
-      this.tRex.update(deltaTime);
+      this.tRexGroup.update(deltaTime);
       this.scheduleNextUpdate();
     }
   }
@@ -402,7 +408,7 @@ export default class Runner {
     this.crashed = true;
     this.distanceMeter.acheivement = false;
 
-    this.tRex.update(100, Trex.status.CRASHED);
+    this.tRexGroup.update(100, Trex.status.CRASHED);
 
     // Game over panel.
     console.info('Game Over');
@@ -426,7 +432,7 @@ export default class Runner {
   play() {
     if (!this.crashed) {
       this.playing = true;
-      this.tRex.update(0, Trex.status.RUNNING);
+      this.tRexGroup.update(0, Trex.status.RUNNING);
       this.time = getTimeStamp();
       this.update();
     }
@@ -445,7 +451,7 @@ export default class Runner {
       this.clearCanvas();
       this.distanceMeter.reset(this.highestScore);
       this.horizon.reset();
-      this.tRex.reset();
+      this.tRexGroup.reset();
       this.update();
     } else {
       this.isFirstTime = true;
@@ -453,7 +459,7 @@ export default class Runner {
         this.playing = true;
         this.update();
       }
-      this.tRex.reset();
+      this.tRexGroup.reset();
     }
   }
 
@@ -523,3 +529,5 @@ function createCanvas(container, width, height, className) {
 
   return canvas;
 }
+
+function noop() {}
