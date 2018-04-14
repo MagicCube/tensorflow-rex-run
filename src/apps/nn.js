@@ -27,18 +27,23 @@ function handleRestart(tRexes) {
 }
 
 function handleRunning({ tRex, state }) {
-  let action = 0;
-  if (!tRex.jumping) {
-    const prediction = tRex.model.predictSingle(convertStateToVector(state));
-    const result = prediction.dataSync();
-    if (result[1] > result[0]) {
-      action = 1;
-      tRex.lastJumpingState = state;
+  return new Promise((resolve) => {
+    if (!tRex.jumping) {
+      let action = 0;
+      const prediction = tRex.model.predictSingle(convertStateToVector(state));
+      prediction.data().then((result) => {
+        if (result[1] > result[0]) {
+          action = 1;
+          tRex.lastJumpingState = state;
+        } else {
+          tRex.lastRunningState = state;
+        }
+        resolve(action);
+      });
     } else {
-      tRex.lastRunningState = state;
+      resolve(0);
     }
-  }
-  return action;
+  });
 }
 
 function handleCrash({ tRex }) {
@@ -52,11 +57,14 @@ function handleCrash({ tRex }) {
 }
 
 function convertStateToVector(state) {
-  return [
-    state.obstacleX / CANVAS_WIDTH,
-    state.obstacleWidth / CANVAS_WIDTH,
-    state.speed / 100
-  ];
+  if (state) {
+    return [
+      state.obstacleX / CANVAS_WIDTH,
+      state.obstacleWidth / CANVAS_WIDTH,
+      state.speed / 100
+    ];
+  }
+  return [0, 0, 0];
 }
 
 document.addEventListener('DOMContentLoaded', setup);
