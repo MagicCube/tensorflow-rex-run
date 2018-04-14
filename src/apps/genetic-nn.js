@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game';
-import { GeneticNNModel } from '../ai/models/genetic';
+import { NNModel } from '../ai/models/genetic';
 
 const trainingInputs = [];
 const trainingLabels = [];
@@ -28,11 +28,12 @@ function handleRestart(tRexes) {
     if (!tRex.model) {
       // Initialize all the tRexes with random models
       // for the very first time.
-      tRex.model = new GeneticNNModel();
+      tRex.model = new NNModel();
       tRex.model.init();
     } else {
       // Train the model before restarting.
       tRex.model.train(trainingInputs, trainingLabels);
+      console.log(tRex.model.getChromosome().length);
     }
   });
 }
