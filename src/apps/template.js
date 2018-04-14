@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 
-import { predict, train } from '../ai/models/NNModel';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game/Runner';
 
