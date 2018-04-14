@@ -5,23 +5,31 @@ export default class RandomModel extends Model {
   baises = [];
 
   init() {
-    this.train();
+    this.randomize();
   }
 
   predict(inputXs) {
     const inputX = inputXs[0];
     const y =
-      inputX[0] * this.weights[0] +
-      inputX[1] * this.weights[1] +
-      inputX[2] * this.weights[2] +
+      this.weights[0] * inputX[0] +
+      this.weights[1] * inputX[1]+
+      this.weights[2] * inputX[2] +
       this.baises[0];
-    return y > 0 ? 0 : 1;
+    return y < 0 ? 1 : 0;
   }
 
   train() {
-    this.weights[0] = Math.random() - 0.5;
-    this.weights[1] = Math.random() - 0.5;
-    this.weights[2] = Math.random() - 0.5;
-    this.baises[0] = Math.random() - 0.5;
+    this.randomize()
   }
+
+  randomize() {
+    this.weights[0] = random();
+    this.weights[1] = random();
+    this.weights[2] = random();
+    this.baises[0] = random();
+  }
+}
+
+function random() {
+  return (Math.random() - 0.5) * 2;
 }
