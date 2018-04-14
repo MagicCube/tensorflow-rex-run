@@ -13,11 +13,13 @@ export default class GeneticNNModel extends NNModel {
   }
 
   setChromosome(chromosome) {
-    for (let i = 0; i < 2; i += 1) {
-      const weight = chromosome.slice(i * 2, i * 2 + 3 * 6);
-      const bias = chromosome.slice(i * 2 + 3 * 6, i * 2 + 3 * 6 + 1);
-      this.weights[i].assign(tf.tensor(weight));
-      this.biases[i].assign(tf.tensor(bias));
-    }
+    let weight = chromosome.slice(0, 3 * 6);
+    let bias = chromosome.slice(3 * 6, 3 * 6 + 1);
+    this.weights[0].assign(tf.tensor(weight, [3, 6]));
+    this.biases[0].assign(tf.tensor(bias[0]));
+    weight = chromosome.slice(3 * 6 + 1, 3 * 6 + 1 + 6 * 2);
+    bias = chromosome.slice(3 * 6 + 1 + 6 * 2, 3 * 6 + 1 + 6 * 2 + 1);
+    this.weights[1].assign(tf.tensor(weight, [6, 2]));
+    this.biases[1].assign(tf.tensor(bias[0]));
   }
 }
