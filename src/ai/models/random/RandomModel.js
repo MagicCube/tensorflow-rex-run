@@ -2,7 +2,7 @@ import Model from '../Model';
 
 export default class RandomModel extends Model {
   weights = [];
-  baises = [];
+  biases = [];
 
   init() {
     this.randomize();
@@ -14,7 +14,7 @@ export default class RandomModel extends Model {
       this.weights[0] * inputX[0] +
       this.weights[1] * inputX[1]+
       this.weights[2] * inputX[2] +
-      this.baises[0];
+      this.biases[0];
     return y < 0 ? 1 : 0;
   }
 
@@ -26,7 +26,7 @@ export default class RandomModel extends Model {
     this.weights[0] = random();
     this.weights[1] = random();
     this.weights[2] = random();
-    this.baises[0] = random();
+    this.biases[0] = random();
   }
 }
 
