@@ -8,7 +8,7 @@ let runner = null;
 function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
-    onRestart: handleRestart,
+    onReset: handleRestart,
     onRunning: handleRunning,
     onCrash: handleCrash
   });

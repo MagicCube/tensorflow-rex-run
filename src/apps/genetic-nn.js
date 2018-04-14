@@ -14,7 +14,7 @@ function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
     T_REX_COUNT: 4,
-    onRestart: handleRestart,
+    onReset: handleRestart,
     onCrash: handleCrash,
     onRunning: handleRunning
   });
