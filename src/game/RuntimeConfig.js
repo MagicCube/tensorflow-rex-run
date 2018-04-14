@@ -1,4 +1,4 @@
-let FPS = 60;
+let FPS = 80;
 
 export function getFPS() {
   return FPS;
