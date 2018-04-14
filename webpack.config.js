@@ -8,6 +8,7 @@ const ASSETS_PUBLIC_PATH = '/assets';
 module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
+    'genetic': ['./apps/genetic.js'],
     'genetic-nn': ['./apps/genetic-nn.js'],
     nn: ['./apps/nn.js'],
     nnm: ['./apps/nnm.js'],
