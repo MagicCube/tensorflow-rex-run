@@ -35,11 +35,14 @@ function handleCrash({ tRex }) {
 function convertStateToVector(state) {
   // Here's an example of how to convert the state which provided in handleRunning()
   // into a three-dimensional vector as a array.
-  return [
-    state.obstacleX / CANVAS_WIDTH,
-    state.obstacleWidth / CANVAS_WIDTH,
-    state.speed / 100
-  ];
+  if (state) {
+    return [
+      state.obstacleX / CANVAS_WIDTH,
+      state.obstacleWidth / CANVAS_WIDTH,
+      state.speed / 100
+    ];
+  }
+  return [0, 0, 0];
 }
 
 document.addEventListener('DOMContentLoaded', setup);
