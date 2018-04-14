@@ -21,7 +21,7 @@ function setup() {
 }
 
 let firstTime = true;
-function handleReset(tRexes) {
+function handleReset({ tRexes }) {
   const tRex = tRexes[0];
   if (firstTime) {
     firstTime = false;

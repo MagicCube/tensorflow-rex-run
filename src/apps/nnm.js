@@ -21,7 +21,7 @@ function setup() {
 }
 
 let firstTime = true;
-function handleReset(tRexes) {
+function handleReset({ tRexes }) {
   if (firstTime) {
     // Initialize all the tRexes for the very first time.
     firstTime = false;

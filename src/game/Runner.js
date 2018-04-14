@@ -447,12 +447,12 @@ export default class Runner {
       this.distanceMeter.reset(this.highestScore);
       this.horizon.reset();
       this.tRexGroup.reset();
-      this.config.onReset(this.tRexGroup.tRexes);
+      this.config.onReset({ tRexes: this.tRexGroup.tRexes });
       this.update();
     } else {
       this.isFirstTime = true;
       this.tRexGroup.reset();
-      this.config.onReset(this.tRexGroup.tRexes);
+      this.config.onReset({ tRexes: this.tRexGroup.tRexes });
       if (!this.playing) {
         this.playing = true;
         this.update();

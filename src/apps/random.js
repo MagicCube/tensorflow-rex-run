@@ -21,7 +21,7 @@ function setup() {
 }
 
 let firstTime = true;
-function handleReset(tRexes) {
+function handleReset({ tRexes }) {
   if (firstTime) {
     firstTime = false;
     tRexes.forEach((tRex) => {

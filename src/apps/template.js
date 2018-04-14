@@ -18,7 +18,7 @@ function setup() {
   runner.init();
 }
 
-function handleReset(tRexes) {
+function handleReset({ tRexes }) {
   // Add initialization of tRexes here.
   // This method is called everytime the game restarts.
 }
