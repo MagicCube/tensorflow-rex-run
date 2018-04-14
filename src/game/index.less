@@ -6,22 +6,21 @@ body {
   height: 100%;
 }
 
-.hidden {
-  display: none;
+h1 {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
 }
 
 /* Offline page */
 .page {
   position: relative;
-  margin-top: 80px;
 
   .game {
     color: #2b2b2b;
     font-size: 1em;
-    line-height: 1.55;
     margin: 0 auto;
     max-width: 600px;
-    padding-top: 100px;
     width: 100%;
   }
 
@@ -30,14 +29,13 @@ body {
     max-width: 600px;
     opacity: 1;
     overflow: hidden;
-    position: absolute;
     top: 0;
     z-index: 2;
   }
 
   .generation {
     position: absolute;
-    top: 2px;
+    top: 40px;
     left: 0;
     right: 0;
     font-weight: bold;
@@ -46,9 +44,6 @@ body {
 }
 
 @media (max-height: 350px) {
-  h1 {
-    margin: 0 0 15px;
-  }
   .game {
     margin-top: 5%;
   }
