@@ -19,9 +19,6 @@ module.exports = {
     publicPath: ASSETS_PUBLIC_PATH,
     filename: './[name].js'
   },
-  devServer: {
-    contentBase: './public'
-  },
   module: {
     rules: [
       {
