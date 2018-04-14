@@ -46,6 +46,10 @@ export default class TrexGroup {
     });
   }
 
+  live() {
+    return this.tRexes.reduce((count, tRex) => tRex.crashed ? count : count + 1, 0);
+  }
+
   checkForCollision(obstacle) {
     let crashes = 0;
     const state = {

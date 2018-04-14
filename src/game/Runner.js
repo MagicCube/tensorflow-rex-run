@@ -318,6 +318,8 @@ export default class Runner {
       this.tRexGroup.update(deltaTime);
       this.scheduleNextUpdate();
     }
+
+    this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.live()}`;
   }
 
   /**
@@ -458,7 +460,6 @@ export default class Runner {
       }
     }
     Runner.generation += 1;
-    this.generationEl.innerText = `Generation #${Runner.generation}`;
   }
 
   /**
