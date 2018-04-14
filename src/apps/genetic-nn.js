@@ -3,16 +3,17 @@ import 'babel-polyfill';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game';
 import NNModel from '../ai/models/genetic-nn/NNModel';
+import GeneticModel from '../ai/models/genetic/GeneticModel';
 
-const trainingInputs = [];
-const trainingLabels = [];
+const geneticModel = new GeneticModel();
+const rankList = [];
 
 let runner = null;
 
 function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
-    T_REX_COUNT: 3,
+    T_REX_COUNT: 4,
     onRestart: handleRestart,
     onCrash: handleCrash,
     onRunning: handleRunning
@@ -23,19 +24,35 @@ function setup() {
   runner.init();
 }
 
+let firstTime = true;
 function handleRestart(tRexes) {
-  tRexes.forEach((tRex) => {
-    if (!tRex.model) {
-      // Initialize all the tRexes with random models
-      // for the very first time.
+  if (firstTime) {
+    // Initialize all the tRexes for the very first time.
+    firstTime = false;
+    tRexes.forEach((tRex) => {
       tRex.model = new NNModel();
       tRex.model.init();
-    } else {
-      // Train the model before restarting.
-      tRex.model.train(trainingInputs, trainingLabels);
-      console.log(tRex.model.getChromosome().length);
-    }
-  });
+      tRex.training = {
+        inputs: [],
+        labels: []
+      };
+    });
+  } else {
+    // Train the model before restarting.
+    console.info('Training');
+    // Do the NN training first
+    tRexes.forEach((tRex) => {
+      tRex.model.train(tRex.training.inputs, tRex.training.labels);
+    });
+    // Genetic training
+    const chromosomes = rankList.map((tRex) => tRex.model.getChromosome());
+    // Clear rankList
+    rankList.splice(0);
+    geneticModel.train(chromosomes);
+    tRexes.forEach((tRex, i) => {
+      tRex.model.setChromosome(chromosomes[i]);
+    });
+  }
 }
 
 function handleRunning({ tRex, state }) {
@@ -65,11 +82,14 @@ function handleCrash({ tRex }) {
     input = convertStateToVector(tRex.lastJumpingState);
     label = [1, 0];
   } else {
-    input = convertStateToVector(tRex.lastRunningState)
+    input = convertStateToVector(tRex.lastRunningState);
     label = [0, 1];
   }
-  trainingInputs.push(input);
-  trainingLabels.push(label)
+  tRex.training.inputs.push(input);
+  tRex.training.labels.push(label);
+  if (!rankList.includes(tRex)) {
+    rankList.unshift(tRex);
+  }
 }
 
 function convertStateToVector(state) {
