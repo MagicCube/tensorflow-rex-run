@@ -9,12 +9,15 @@ module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
     vendors: ['./vendors/index.js'],
-    index: ['./index.js']
+    nn: ['./apps/nn/index.js']
   },
   output: {
     path: ASSETS_BUILD_PATH,
     publicPath: ASSETS_PUBLIC_PATH,
     filename: './[name].js'
+  },
+  devServer: {
+    contentBase: './public'
   },
   module: {
     rules: [
