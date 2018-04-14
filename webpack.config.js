@@ -2,7 +2,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
 const ASSETS_SOURCE_PATH = path.resolve('./src');
-const ASSETS_BUILD_PATH = path.resolve('./build');
+const ASSETS_BUILD_PATH = path.resolve('./assets');
 const ASSETS_PUBLIC_PATH = '/assets';
 
 module.exports = {
