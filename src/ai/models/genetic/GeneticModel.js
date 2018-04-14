@@ -20,14 +20,14 @@ export default class GeneticModel extends Model {
     const crossOverPoint = Math.floor(Math.random() * chromosomes.length);
     // Swap values among parents
     for (let i = 0; i < crossOverPoint; i += 1) {
-        const temp = offspring1.genes[i];
-        offspring1.genes[i] = offspring2.genes[i];
-        offspring2.genes[i] = temp;
+        const temp = offspring1[i];
+        offspring1[i] = offspring2[i];
+        offspring2[i] = temp;
     }
     const offspring = [offspring1, offspring2];
     // Replace the last 2 with the new offspring
     for (let i = 0; i < 2; i += 1) {
-      chromosomes[i] = offspring[chromosomes.length - i - 1];
+      chromosomes[chromosomes.length - i - 1] = offspring[i];
     }
     return offspring;
   }
