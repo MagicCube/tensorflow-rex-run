@@ -25,26 +25,21 @@ export default class Runner {
     GAP_COEFFICIENT: 0.6,
     GRAVITY: 0.6,
     INITIAL_JUMP_VELOCITY: 12,
-    MAX_BLINK_COUNT: 3,
     MAX_CLOUDS: 6,
     MAX_OBSTACLE_LENGTH: 3,
     MAX_SPEED: 13,
     MIN_JUMP_HEIGHT: 35,
-    RESOURCE_TEMPLATE_ID: 'audio-resources',
     SPEED: 6,
     SPEED_DROP_COEFFICIENT: 3,
+    // Events
     onReset: noop,
     onRunning: noop,
     onCrash: noop
   };
 
   static classes = {
-    CANVAS: 'runner-canvas',
-    CONTAINER: 'runner-container',
-    CRASHED: 'crashed',
-    ICON: 'icon-offline',
-    SNACKBAR: 'snackbar',
-    SNACKBAR_SHOW: 'snackbar-show'
+    CANVAS: 'game-canvas',
+    CONTAINER: 'game-container',
   };
 
   static spriteDefinition = {
@@ -52,12 +47,10 @@ export default class Runner {
     CACTUS_SMALL: { x: 228, y: 2 },
     CLOUD: { x: 86, y: 2 },
     HORIZON: { x: 2, y: 54 },
-    MOON: { x: 484, y: 2 },
     PTERODACTYL: { x: 134, y: 2 },
     RESTART: { x: 2, y: 2 },
     TEXT_SPRITE: { x: 655, y: 2 },
-    TREX: { x: 848, y: 2 },
-    STAR: { x: 645, y: 2 }
+    TREX: { x: 848, y: 2 }
   };
 
   /**
@@ -96,7 +89,6 @@ export default class Runner {
     this.outerContainerEl = document.querySelector(outerContainerId);
     this.generationEl = document.querySelector('.generation');
     this.containerEl = null;
-    this.snackbarEl = null;
 
     this.config = Object.assign({}, Runner.config, options);
 
@@ -449,7 +441,6 @@ export default class Runner {
       this.distanceRan = 0;
       this.setSpeed(this.config.SPEED);
       this.time = getTimeStamp();
-      this.containerEl.classList.remove(Runner.classes.CRASHED);
       this.clearCanvas();
       this.distanceMeter.reset(this.highestScore);
       this.horizon.reset();
