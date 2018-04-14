@@ -1,4 +1,4 @@
-import Model from './Model';
+import Model from '../Model';
 
 export default class RandomModel extends Model {
   weights = [];

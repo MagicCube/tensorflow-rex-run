@@ -1,7 +1,7 @@
 import * as tf from '@tensorflow/tfjs';
 
-import { tensor } from './utils';
-import Model from './Model';
+import { tensor } from '../../utils';
+import Model from '../Model';
 
 /**
  * Simple Neural Network Model

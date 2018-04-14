@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game';
-import { GeneticNNModel } from '../ai/models/GeneticModel';
+import { GeneticNNModel } from '../ai/models/genetic';
 
 const trainingInputs = [];
 const trainingLabels = [];

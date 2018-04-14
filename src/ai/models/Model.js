@@ -1,4 +1,4 @@
-import { tensor } from './utils';
+import { tensor } from '../utils';
 
 export default class Model {
   init() {

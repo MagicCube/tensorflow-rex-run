@@ -1,4 +1,4 @@
-import NNModel from './NNModel';
+import NNModel from '../nn/NNModel';
 
 export class GeneticNNModel extends NNModel {
 
