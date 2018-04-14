@@ -1,6 +1,6 @@
 import Model from '../Model';
 
-export class GeneticModel extends Model {
+export default class GeneticModel extends Model {
   train(chromosomes) {
     const parents = this.select(chromosomes);
     const offspring = this.crossOver(parents, chromosomes);
