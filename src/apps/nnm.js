@@ -23,8 +23,7 @@ function setup() {
 let firstTime = true;
 function handleRestart(tRexes) {
   if (firstTime) {
-    // Initialize all the tRexes with random models
-    // for the very first time.
+    // Initialize all the tRexes for the very first time.
     firstTime = false;
     tRexes.forEach((tRex) => {
       tRex.model = new NNModel();
@@ -36,11 +35,10 @@ function handleRestart(tRexes) {
     });
   } else {
     // Train the model before restarting.
-    console.info('Training...');
+    console.info('Training');
     tRexes.forEach((tRex) => {
       tRex.model.train(tRex.training.inputs, tRex.training.labels);
     });
-    console.info('Done.');
   }
 }
 
