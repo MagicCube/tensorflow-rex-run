@@ -1,38 +1,58 @@
 import * as tf from '@tensorflow/tfjs';
 
-const HIDDEN_LAYER_SIZE = 6;
-const INPUT_SIZE = 3;
-const OUTPUT_SIZE = 2;
+import { tensor } from './utils';
+import Model from './Model';
 
-const weights1 = tf.variable(tf.randomNormal([INPUT_SIZE, HIDDEN_LAYER_SIZE]));
-const weights2 = tf.variable(tf.randomNormal([HIDDEN_LAYER_SIZE, OUTPUT_SIZE]));
-const bias1 = tf.variable(tf.scalar(Math.random()));
-const bias2 = tf.variable(tf.scalar(Math.random()));
+/**
+ * Simple Neural Network Model
+ */
+export default class NNModel extends Model {
+  weights = [];
+  biases = [];
 
-const optimizer = tf.train.adam(0.1);
-
-export function predict(arrX) {
-  const x = tf.tensor(arrX);
-  // y = sigmoid(wx + b)
-  const prediction = tf.tidy(
-    () => tf.sigmoid(tf.matMul(
-      tf.sigmoid(x.matMul(weights1).add(bias1)), weights2
-    ).add(bias2))
-  );
-  return prediction;
-}
-
-export function train(arrXs, arrYs, iterationCount = 100) {
-  const ys = tf.tensor(arrYs);
-  for (let i = 0; i < iterationCount; i += 1) {
-    optimizer.minimize(() => {
-      const predsYs = predict(arrXs);
-      return loss(predsYs, ys);
-    });
+  constructor({
+    inputSize = 3,
+    hiddenLayerSize = inputSize * 2,
+    outputSize = 2,
+    learningRate = 0.1
+  } = {}) {
+    super();
+    this.hiddenLayerSize = hiddenLayerSize;
+    this.inputSize = inputSize;
+    this.outputSize = outputSize;
+    // Using ADAM optimizer
+    this.optimizer = tf.train.adam(learningRate);
   }
-}
 
-function loss(predictions, labels) {
-  const meanSquareError = predictions.sub(labels).square().mean();
-  return meanSquareError;
+  init() {
+    // Hidden layer
+    this.weights[0] = tf.variable(
+      tf.randomNormal([this.inputSize, this.hiddenLayerSize])
+    );
+    this.biases[0] = tf.variable(tf.scalar(Math.random()));
+    // Output layer
+    this.weights[1] = tf.variable(
+      tf.randomNormal([this.hiddenLayerSize, this.outputSize])
+    );
+    this.biases[1] = tf.variable(tf.scalar(Math.random()));
+  }
+
+  predict(inputXs) {
+    const x = tensor(inputXs);
+    const prediction = tf.tidy(() => {
+      const hiddenLayer = tf.sigmoid(x.matMul(this.weights[0]).add(this.biases[0]));
+      const outputLayer = tf.sigmoid(hiddenLayer.matMul(this.weights[1]).add(this.biases[1]));
+      return outputLayer;
+    });
+    return prediction;
+  }
+
+  train(inputXs, inputYs, iterationCount = 100) {
+    for (let i = 0; i < iterationCount; i += 1) {
+      this.optimizer.minimize(() => {
+        const predictedYs = this.predict(inputXs);
+        return this.loss(predictedYs, inputYs);
+      });
+    }
+  }
 }

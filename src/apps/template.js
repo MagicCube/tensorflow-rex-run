@@ -3,9 +3,11 @@ import 'babel-polyfill';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game';
 
+let model = null;
 let runner = null;
 
-function init() {
+function setup() {
+  this.initModel();
   // Initialize the game Runner.
   runner = new Runner('.game', {
     onRestart: handleRestart,
@@ -16,6 +18,11 @@ function init() {
   window.runner = runner;
   // Initialize everything in the game and start the game.
   runner.init();
+}
+
+function initModel() {
+  // model = new XXXModel();
+  // model.init();
 }
 
 function handleRestart(tRexes) {
@@ -42,4 +49,4 @@ function convertStateToVector(state) {
   ];
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', setup);

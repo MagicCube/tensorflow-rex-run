@@ -1,15 +1,17 @@
 import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
-import { predict, train } from '../ai/models/NNModel';
+import Model from '../ai/models/NNModel';
 import { Runner } from '../game';
 
 let runner = null;
+let model = null;
 
 let lastJumpingState = null;
 let lastRunningState = null;
 
-function init() {
+function setup() {
+  initModel();
   runner = new Runner('.game', {
     onRestart: handleRestart,
     onRunning: handleRunning,
@@ -19,6 +21,11 @@ function init() {
   runner.init();
 }
 
+function initModel() {
+  model = new Model();
+  model.init();
+}
+
 function handleRestart(tRexes) {
 
 }
@@ -26,7 +33,7 @@ function handleRestart(tRexes) {
 function handleRunning({ tRex, state }) {
   let action = 0;
   if (!tRex.jumping) {
-    const prediction = predict([convertStateToVector(state)]);
+    const prediction = model.predictSingle(convertStateToVector(state));
     const result = prediction.dataSync();
     if (result[1] > result[0]) {
       action = 1;
@@ -40,10 +47,10 @@ function handleRunning({ tRex, state }) {
 
 function handleCrash({ tRex }) {
   if (tRex.jumping) {
-    train([convertStateToVector(lastJumpingState)], [[1, 0]]);
+    model.trainSingle(convertStateToVector(lastJumpingState), [1, 0]);
     console.warn('Should not jump', lastJumpingState);
   } else {
-    train([convertStateToVector(lastRunningState)], [[0, 1]]);
+    model.trainSingle(convertStateToVector(lastRunningState), [0, 1]);
     console.warn('Should jump', lastRunningState);
   }
 }
@@ -56,4 +63,4 @@ function convertStateToVector(state) {
   ];
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', setup);
