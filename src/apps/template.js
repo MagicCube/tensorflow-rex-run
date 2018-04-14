@@ -8,7 +8,7 @@ let runner = null;
 
 function init() {
   // Initialize the game Runner.
-  runner = new Runner('.interstitial-wrapper', {
+  runner = new Runner('.game', {
     onRestart: handleRestart,
     onRunning: handleRunning,
     onCrash: handleCrash
