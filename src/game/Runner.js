@@ -318,7 +318,12 @@ export default class Runner {
       this.scheduleNextUpdate();
     }
 
-    this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.lives()}`;
+    const lives = this.tRexGroup.lives();
+    if (lives > 0) {
+      this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.lives()}`;
+    } else {
+      this.generationEl.innerText = 'GAME OVER';
+    }
   }
 
   /**
