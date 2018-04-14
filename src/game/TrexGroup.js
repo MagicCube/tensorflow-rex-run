@@ -58,7 +58,7 @@ export default class TrexGroup {
       obstacleWidth: obstacle.width,
       speed: Runner.instance_.currentSpeed
     };
-    this.tRexes.forEach((tRex) => {
+    this.tRexes.forEach(async (tRex) => {
       if (!tRex.crashed) {
         const result = checkForCollision(obstacle, tRex);
         if (result) {
@@ -66,7 +66,7 @@ export default class TrexGroup {
           tRex.crashed = true;
           this.onCrash({ tRex, state });
         } else {
-          const action = this.onRunning({ tRex, state });
+          const action = await this.onRunning({ tRex, state });
           if (action === 1) {
             tRex.startJump();
           } else if (action === -1) {
