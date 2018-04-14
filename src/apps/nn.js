@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
-import { Model } from '../ai/models/nn';
+import Model from '../ai/models/nn/NNModel';
 import { Runner } from '../game';
 
 let runner = null;
