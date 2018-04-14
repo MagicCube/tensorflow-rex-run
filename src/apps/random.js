@@ -20,15 +20,19 @@ function setup() {
   runner.init();
 }
 
+let firstTime = true;
 function handleRestart(tRexes) {
-  tRexes.forEach((tRex) => {
-    if (!tRex.model) {
-      // Initialize all the tRexes with random models
-      // for the very first time.
-      tRex.model = new RandomModel();
-      tRex.model.init();
-    }
-  });
+  if (firstTime) {
+    firstTime = false;
+    tRexes.forEach((tRex) => {
+      if (!tRex.model) {
+        // Initialize all the tRexes with random models
+        // for the very first time.
+        tRex.model = new RandomModel();
+        tRex.model.init();
+      }
+    });
+  }
 }
 
 function handleRunning({ tRex, state }) {

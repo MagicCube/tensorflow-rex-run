@@ -20,22 +20,28 @@ function setup() {
   runner.init();
 }
 
+let firstTime = true;
 function handleRestart(tRexes) {
-  tRexes.forEach((tRex) => {
-    if (!tRex.model) {
-      // Initialize all the tRexes with random models
-      // for the very first time.
+  if (firstTime) {
+    // Initialize all the tRexes with random models
+    // for the very first time.
+    firstTime = false;
+    tRexes.forEach((tRex) => {
       tRex.model = new NNModel();
       tRex.model.init();
       tRex.training = {
         inputs: [],
         labels: []
       };
-    } else {
-      // Train the model before restarting.
+    });
+  } else {
+    // Train the model before restarting.
+    console.info('Training...');
+    tRexes.forEach((tRex) => {
       tRex.model.train(tRex.training.inputs, tRex.training.labels);
-    }
-  });
+    });
+    console.info('Done.');
+  }
 }
 
 function handleRunning({ tRex, state }) {
