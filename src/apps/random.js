@@ -11,6 +11,7 @@ function setup() {
   runner = new Runner('.game', {
     T_REX_COUNT: 10,
     onRestart: handleRestart,
+    onCrash: handleCrash,
     onRunning: handleRunning
   });
   // Set runner as a global variable if you need runtime debugging.
@@ -43,11 +44,14 @@ function handleCrash({ tRex }) {
 }
 
 function convertStateToVector(state) {
-  return [
-    state.obstacleX / CANVAS_WIDTH,
-    state.obstacleWidth / CANVAS_WIDTH,
-    state.speed / 100
-  ];
+  if (state) {
+    return [
+      state.obstacleX / CANVAS_WIDTH,
+      state.obstacleWidth / CANVAS_WIDTH,
+      state.speed / 100
+    ];
+  }
+  return [0, 0, 0];
 }
 
 document.addEventListener('DOMContentLoaded', setup);
