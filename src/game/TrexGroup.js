@@ -46,7 +46,7 @@ export default class TrexGroup {
     });
   }
 
-  live() {
+  lives() {
     return this.tRexes.reduce((count, tRex) => tRex.crashed ? count : count + 1, 0);
   }
 

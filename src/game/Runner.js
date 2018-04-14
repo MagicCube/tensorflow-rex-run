@@ -319,7 +319,7 @@ export default class Runner {
       this.scheduleNextUpdate();
     }
 
-    this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.live()}`;
+    this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.lives()}`;
   }
 
   /**
