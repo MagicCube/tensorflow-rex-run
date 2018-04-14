@@ -22,9 +22,9 @@ export function predict(arrX) {
   return prediction;
 }
 
-export function train(arrXs, arrYs, numIterations = 100) {
+export function train(arrXs, arrYs, iterationCount = 100) {
   const ys = tf.tensor(arrYs);
-  for (let iter = 0; iter < numIterations; iter += 1) {
+  for (let i = 0; i < iterationCount; i += 1) {
     optimizer.minimize(() => {
       const predsYs = predict(arrXs);
       return loss(predsYs, ys);
