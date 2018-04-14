@@ -31,6 +31,7 @@ export default class Runner {
     MIN_JUMP_HEIGHT: 35,
     SPEED: 6,
     SPEED_DROP_COEFFICIENT: 3,
+    T_REX_COUNT: 1,
     // Events
     onReset: noop,
     onRunning: noop,
@@ -166,7 +167,7 @@ export default class Runner {
     );
 
     // Draw t-rex
-    this.tRexGroup = new TrexGroup(1, this.canvas, this.spriteDef.TREX);
+    this.tRexGroup = new TrexGroup(this.config.T_REX_COUNT, this.canvas, this.spriteDef.TREX);
     this.tRexGroup.onReset = this.config.onReset;
     this.tRexGroup.onRunning = this.config.onRunning;
     this.tRexGroup.onCrash = this.config.onCrash;
@@ -445,6 +446,7 @@ export default class Runner {
       this.distanceMeter.reset(this.highestScore);
       this.horizon.reset();
       this.tRexGroup.reset();
+      this.config.onRestart(this.tRexGroup.tRexes);
       this.update();
     } else {
       this.isFirstTime = true;
@@ -453,6 +455,7 @@ export default class Runner {
         this.update();
       }
       this.tRexGroup.reset();
+      this.config.onRestart(this.tRexGroup.tRexes);
     }
     Runner.generation += 1;
     this.generationEl.innerText = `Generation #${Runner.generation}`;

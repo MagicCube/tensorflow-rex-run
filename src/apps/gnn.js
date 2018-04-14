@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
+import { GeneticNNModel } from '../ai/models/GeneticModel';
 import { Runner } from '../game';
 
 let runner = null;
@@ -19,22 +20,37 @@ function init() {
 }
 
 function handleRestart(tRexes) {
-  // Add initialization of tRexes here.
-  // This method is called everytime the game restarts.
+  tRexes.forEach((tRex) => {
+    tRex.model = new GeneticNNModel();
+  });
 }
 
 function handleRunning({ tRex, state }) {
-  // Decide whether this `tRex` should jump(return 1) or keep walking(return 0)
-  // based on the `state` provided in the parameter.
+  let action = 0;
+  if (!tRex.jumping) {
+    const prediction = tRex.model.predictSingle(convertStateToVector(state));
+    const result = prediction.dataSync();
+    if (result[1] > result[0]) {
+      action = 1;
+      tRex.lastJumpingState = state;
+    } else {
+      tRex.lastRunningState = state;
+    }
+  }
+  return action;
 }
 
 function handleCrash({ tRex }) {
-  // Fires when the `tRex` hit a obstacle(like cactus or bird).
+  if (tRex.jumping) {
+    tRex.model.trainSingle(convertStateToVector(tRex.lastJumpingState), [1, 0]);
+    console.warn('Should not jump', tRex.lastJumpingState);
+  } else {
+    tRex.model.trainSingle(convertStateToVector(tRex.lastRunningState), [0, 1]);
+    console.warn('Should jump', tRex.lastRunningState);
+  }
 }
 
 function convertStateToVector(state) {
-  // Here's an example of how to convert the state which provided in handleRunning()
-  // into a three-dimensional vector as a array.
   return [
     state.obstacleX / CANVAS_WIDTH,
     state.obstacleWidth / CANVAS_WIDTH,
