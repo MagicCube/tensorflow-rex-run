@@ -8,8 +8,7 @@ const ASSETS_PUBLIC_PATH = '/assets';
 module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
-    vendors: ['./vendors/index.js'],
-    nn: ['./apps/nn/index.js']
+    nn: ['./apps/nn.js']
   },
   output: {
     path: ASSETS_BUILD_PATH,
@@ -43,8 +42,7 @@ module.exports = {
         use: [
           {
             loader: 'url-loader',
-            options:
-            {
+            options: {
               limit: 8192,
               mimetype: 'image/png',
               name: 'images/[name].[ext]'
@@ -54,7 +52,24 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CleanWebpackPlugin([ASSETS_BUILD_PATH], { verbose: false })
-  ]
+  plugins: [new CleanWebpackPlugin([ASSETS_BUILD_PATH], { verbose: false })],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          minChunks: 2,
+          maxInitialRequests: 5,
+          minSize: 0
+        },
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'vendor',
+          priority: 10,
+          enforce: true
+        }
+      }
+    }
+  }
 };
