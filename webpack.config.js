@@ -8,6 +8,7 @@ const ASSETS_PUBLIC_PATH = '/assets';
 module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
+    gnn: ['./apps/gnn.js'],
     nn: ['./apps/nn.js']
   },
   output: {
@@ -56,12 +57,6 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        commons: {
-          chunks: 'initial',
-          minChunks: 2,
-          maxInitialRequests: 5,
-          minSize: 0
-        },
         vendor: {
           test: /node_modules/,
           chunks: 'initial',
