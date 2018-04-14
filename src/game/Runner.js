@@ -26,7 +26,7 @@ export default class Runner {
     GRAVITY: 0.6,
     INITIAL_JUMP_VELOCITY: 12,
     MAX_CLOUDS: 6,
-    MAX_OBSTACLE_LENGTH: 3,
+    MAX_OBSTACLE_LENGTH: 4,
     MAX_SPEED: 13,
     MIN_JUMP_HEIGHT: 35,
     SPEED: 6,
