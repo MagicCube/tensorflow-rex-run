@@ -27,7 +27,6 @@ function handleRestart(tRexes) {
 }
 
 function handleRunning({ tRex, state }) {
-  if (!tRex.model) return 0;
   let action = 0;
   if (!tRex.jumping) {
     const prediction = tRex.model.predictSingle(convertStateToVector(state));

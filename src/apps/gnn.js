@@ -9,6 +9,7 @@ let runner = null;
 function init() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
+    T_REX_COUNT: 10,
     onRestart: handleRestart,
     onRunning: handleRunning,
     onCrash: handleCrash
@@ -21,7 +22,12 @@ function init() {
 
 function handleRestart(tRexes) {
   tRexes.forEach((tRex) => {
-    tRex.model = new GeneticNNModel();
+    if (!tRex.model) {
+      // Initialize all the tRexes with random models
+      // for the very first time.
+      tRex.model = new GeneticNNModel();
+      tRex.model.init();
+    }
   });
 }
 

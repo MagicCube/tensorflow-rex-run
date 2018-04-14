@@ -450,12 +450,12 @@ export default class Runner {
       this.update();
     } else {
       this.isFirstTime = true;
+      this.tRexGroup.reset();
+      this.config.onRestart(this.tRexGroup.tRexes);
       if (!this.playing) {
         this.playing = true;
         this.update();
       }
-      this.tRexGroup.reset();
-      this.config.onRestart(this.tRexGroup.tRexes);
     }
     Runner.generation += 1;
     this.generationEl.innerText = `Generation #${Runner.generation}`;
