@@ -2,6 +2,7 @@ import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game';
+import GeneticModel from '../ai/models/genetic/GeneticModel';
 import RandomModel from '../ai/models/genetic/RandomModel';
 
 const trainingInputs = [];
@@ -10,11 +11,12 @@ const trainingLabels = [];
 let runner = null;
 
 const sortedTRexes = [];
+const geneticModel = new GeneticModel();
 
 function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
-    T_REX_COUNT: 3,
+    T_REX_COUNT: 10,
     onRestart: handleRestart,
     onCrash: handleCrash,
     onRunning: handleRunning
@@ -37,9 +39,13 @@ function handleRestart(tRexes) {
     });
   } else {
     // Train the model before restarting.
-    const chromosomes = sortedTRexes.map((tRex) =>
-      tRex.model.getChromosome()
-    );
+    console.info('Training');
+    const chromosomes = sortedTRexes.map((tRex) => tRex.model.getChromosome());
+    sortedTRexes.splice(0);
+    geneticModel.train(chromosomes);
+    tRexes.forEach((tRex, i) => {
+      tRex.model.setChromosome(chromosomes[i])
+    });
   }
 }
 
