@@ -10,7 +10,7 @@ function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
     T_REX_COUNT: 3,
-    onReset: handleRestart,
+    onReset: handleReset,
     onCrash: handleCrash,
     onRunning: handleRunning
   });
@@ -21,7 +21,7 @@ function setup() {
 }
 
 let firstTime = true;
-function handleRestart(tRexes) {
+function handleReset(tRexes) {
   if (firstTime) {
     // Initialize all the tRexes for the very first time.
     firstTime = false;
