@@ -16,10 +16,12 @@ function setup() {
   runner.init();
 }
 
+let firstTime = true;
 function handleRestart(tRexes) {
-  // We only have one T-Rex in this version.
-  const tRex = tRexes[0];
-  if (!tRex.model) {
+  if (firstTime) {
+    firstTime = false;
+    // We only have one T-Rex in this version.
+    const tRex = tRexes[0];
     // Initialize tRex's model for the first time.
     tRex.model = new NNModel();
     tRex.model.init();
