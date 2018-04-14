@@ -168,7 +168,6 @@ export default class Runner {
 
     // Draw t-rex
     this.tRexGroup = new TrexGroup(this.config.T_REX_COUNT, this.canvas, this.spriteDef.TREX);
-    this.tRexGroup.onReset = this.config.onReset;
     this.tRexGroup.onRunning = this.config.onRunning;
     this.tRexGroup.onCrash = this.config.onCrash;
     this.tRex = this.tRexGroup.tRexes[0];
@@ -319,7 +318,12 @@ export default class Runner {
       this.scheduleNextUpdate();
     }
 
-    this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.lives()}`;
+    const lives = this.tRexGroup.lives();
+    if (lives > 0) {
+      this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.lives()}`;
+    } else {
+      this.generationEl.innerText = 'GAME OVER';
+    }
   }
 
   /**
@@ -448,12 +452,12 @@ export default class Runner {
       this.distanceMeter.reset(this.highestScore);
       this.horizon.reset();
       this.tRexGroup.reset();
-      this.config.onRestart(this.tRexGroup.tRexes);
+      this.config.onReset({ tRexes: this.tRexGroup.tRexes });
       this.update();
     } else {
       this.isFirstTime = true;
       this.tRexGroup.reset();
-      this.config.onRestart(this.tRexGroup.tRexes);
+      this.config.onReset({ tRexes: this.tRexGroup.tRexes });
       if (!this.playing) {
         this.playing = true;
         this.update();

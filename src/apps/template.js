@@ -8,7 +8,7 @@ let runner = null;
 function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
-    onRestart: handleRestart,
+    onReset: handleReset,
     onRunning: handleRunning,
     onCrash: handleCrash
   });
@@ -18,7 +18,7 @@ function setup() {
   runner.init();
 }
 
-function handleRestart(tRexes) {
+function handleReset({ tRexes }) {
   // Add initialization of tRexes here.
   // This method is called everytime the game restarts.
 }
