@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game';
-import Model from '../ai/models/random/RandomModel';
+import RandomModel from '../ai/models/random/RandomModel';
 
 let runner = null;
 
@@ -25,7 +25,7 @@ function handleRestart(tRexes) {
     if (!tRex.model) {
       // Initialize all the tRexes with random models
       // for the very first time.
-      tRex.model = new Model();
+      tRex.model = new RandomModel();
       tRex.model.init();
     }
   });

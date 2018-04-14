@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
-import Model from '../ai/models/nn/NNModel';
+import NNModel from '../ai/models/nn/NNModel';
 import { Runner } from '../game';
 
 let runner = null;
@@ -21,7 +21,7 @@ function handleRestart(tRexes) {
   const tRex = tRexes[0];
   if (!tRex.model) {
     // Initialize tRex's model for the first time.
-    tRex.model = new Model();
+    tRex.model = new NNModel();
     tRex.model.init();
   }
 }
