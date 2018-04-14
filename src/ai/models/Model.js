@@ -23,10 +23,6 @@ export default class Model {
     );
   }
 
-  trainSingle(inputX, inputY, iterationCount = 100) {
-    this.train([inputX], [inputY], iterationCount);
-  }
-
   loss(predictedYs, labels) {
     const meanSquareError = predictedYs
       .sub(tensor(labels))
