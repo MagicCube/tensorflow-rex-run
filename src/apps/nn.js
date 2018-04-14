@@ -1,30 +1,40 @@
 import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
-import NNModel from '../ai/models/nn/NNModel';
 import { Runner } from '../game';
+import NNModel from '../ai/models/nn/NNModel';
 
 let runner = null;
 
 function setup() {
+  // Initialize the game Runner.
   runner = new Runner('.game', {
+    T_REX_COUNT: 1,
     onRestart: handleRestart,
-    onRunning: handleRunning,
-    onCrash: handleCrash
+    onCrash: handleCrash,
+    onRunning: handleRunning
   });
+  // Set runner as a global variable if you need runtime debugging.
   window.runner = runner;
+  // Initialize everything in the game and start the game.
   runner.init();
 }
 
 let firstTime = true;
 function handleRestart(tRexes) {
+  const tRex = tRexes[0];
   if (firstTime) {
     firstTime = false;
-    // We only have one T-Rex in this version.
-    const tRex = tRexes[0];
-    // Initialize tRex's model for the first time.
     tRex.model = new NNModel();
     tRex.model.init();
+    tRex.training = {
+      inputs: [],
+      labels: []
+    };
+  } else {
+    // Train the model before restarting.
+    console.info('Training');
+    tRex.model.train(tRex.training.inputs, tRex.training.labels);
   }
 }
 
@@ -49,13 +59,19 @@ function handleRunning({ tRex, state }) {
 }
 
 function handleCrash({ tRex }) {
+  let input = null;
+  let label = null;
   if (tRex.jumping) {
-    tRex.model.trainSingle(convertStateToVector(tRex.lastJumpingState), [1, 0]);
-    console.warn('Should not jump', tRex.lastJumpingState);
+    // Should not jump next time
+    input = convertStateToVector(tRex.lastJumpingState);
+    label = [1, 0];
   } else {
-    tRex.model.trainSingle(convertStateToVector(tRex.lastRunningState), [0, 1]);
-    console.warn('Should jump', tRex.lastRunningState);
+    // Should jump next time
+    input = convertStateToVector(tRex.lastRunningState);
+    label = [0, 1];
   }
+  tRex.training.inputs.push(input);
+  tRex.training.labels.push(label);
 }
 
 function convertStateToVector(state) {
