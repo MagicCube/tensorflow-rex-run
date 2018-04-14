@@ -1,29 +1,40 @@
 import 'babel-polyfill';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
-import NNModel from '../ai/models/NNModel';
 import { Runner } from '../game';
+import { GeneticNNModel } from '../ai/models/GeneticModel';
+
+const trainingInputs = [];
+const trainingLabels = [];
 
 let runner = null;
 
 function setup() {
+  // Initialize the game Runner.
   runner = new Runner('.game', {
+    T_REX_COUNT: 3,
     onRestart: handleRestart,
-    onRunning: handleRunning,
-    onCrash: handleCrash
+    onCrash: handleCrash,
+    onRunning: handleRunning
   });
+  // Set runner as a global variable if you need runtime debugging.
   window.runner = runner;
+  // Initialize everything in the game and start the game.
   runner.init();
 }
 
 function handleRestart(tRexes) {
-  // We only have one T-Rex in this version.
-  const tRex = tRexes[0];
-  if (!tRex.model) {
-    // Initialize tRex's model for the first time.
-    tRex.model = new NNModel();
-    tRex.model.init();
-  }
+  tRexes.forEach((tRex) => {
+    if (!tRex.model) {
+      // Initialize all the tRexes with random models
+      // for the very first time.
+      tRex.model = new GeneticNNModel();
+      tRex.model.init();
+    } else {
+      // Train the model before restarting.
+      tRex.model.train(trainingInputs, trainingLabels);
+    }
+  });
 }
 
 function handleRunning({ tRex, state }) {
@@ -47,13 +58,17 @@ function handleRunning({ tRex, state }) {
 }
 
 function handleCrash({ tRex }) {
+  let input = null;
+  let label = null;
   if (tRex.jumping) {
-    tRex.model.trainSingle(convertStateToVector(tRex.lastJumpingState), [1, 0]);
-    console.warn('Should not jump', tRex.lastJumpingState);
+    input = convertStateToVector(tRex.lastJumpingState);
+    label = [1, 0];
   } else {
-    tRex.model.trainSingle(convertStateToVector(tRex.lastRunningState), [0, 1]);
-    console.warn('Should jump', tRex.lastRunningState);
+    input = convertStateToVector(tRex.lastRunningState)
+    label = [0, 1];
   }
+  trainingInputs.push(input);
+  trainingLabels.push(label)
 }
 
 function convertStateToVector(state) {

@@ -8,8 +8,9 @@ const ASSETS_PUBLIC_PATH = '/assets';
 module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
-    gnn: ['./apps/gnn.js'],
+    genetic: ['./apps/genetic.js'],
     nn: ['./apps/nn.js'],
+    nnm: ['./apps/nnm.js'],
     random: ['./apps/random.js']
   },
   output: {
