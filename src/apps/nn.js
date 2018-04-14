@@ -10,7 +10,7 @@ let lastJumpingState = null;
 let lastRunningState = null;
 
 function init() {
-  runner = new Runner('.interstitial-wrapper', {
+  runner = new Runner('.game', {
     onRestart: handleRestart,
     onRunning: handleRunning,
     onCrash: handleCrash
