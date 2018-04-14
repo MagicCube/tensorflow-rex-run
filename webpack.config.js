@@ -9,7 +9,8 @@ module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
     gnn: ['./apps/gnn.js'],
-    nn: ['./apps/nn.js']
+    nn: ['./apps/nn.js'],
+    random: ['./apps/random.js']
   },
   output: {
     path: ASSETS_BUILD_PATH,
