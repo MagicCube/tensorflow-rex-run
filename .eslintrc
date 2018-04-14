@@ -8,14 +8,14 @@
     "browser": true
   },
   "rules": {
+    "class-methods-use-this": "warn",
     "comma-dangle": "off",
     "function-paren-newline": "off",
     "global-require": "off",
     "import/prefer-default-export": "off",
-    "no-param-reassign": "off",
-    "class-methods-use-this": "warn",
     "max-len": "warn",
     "no-mixed-operators": "off",
+    "no-param-reassign": "off",
     "no-unused-vars": "off",
     "no-use-before-define": "off",
     "no-console": [
