@@ -10,7 +10,7 @@ const trainingLabels = [];
 
 let runner = null;
 
-const sortedTRexes = [];
+const rankList = [];
 const geneticModel = new GeneticModel();
 
 function setup() {
@@ -40,11 +40,12 @@ function handleRestart(tRexes) {
   } else {
     // Train the model before restarting.
     console.info('Training');
-    const chromosomes = sortedTRexes.map((tRex) => tRex.model.getChromosome());
-    sortedTRexes.splice(0);
+    const chromosomes = rankList.map((tRex) => tRex.model.getChromosome());
+    // Clear rankList
+    rankList.splice(0);
     geneticModel.train(chromosomes);
     tRexes.forEach((tRex, i) => {
-      tRex.model.setChromosome(chromosomes[i])
+      tRex.model.setChromosome(chromosomes[i]);
     });
   }
 }
@@ -58,7 +59,9 @@ function handleRunning({ tRex, state }) {
 }
 
 function handleCrash({ tRex }) {
-  sortedTRexes.unshift(tRex);
+  if (!rankList.includes(tRex)) {
+    rankList.unshift(tRex);
+  }
 }
 
 function convertStateToVector(state) {
