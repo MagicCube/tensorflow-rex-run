@@ -47,12 +47,10 @@ export default class NNModel extends Model {
     return prediction;
   }
 
-  train(inputXs, inputYs, iterationCount = 100) {
-    for (let i = 0; i < iterationCount; i += 1) {
-      this.optimizer.minimize(() => {
-        const predictedYs = this.predict(inputXs);
-        return this.loss(predictedYs, inputYs);
-      });
-    }
+  train(inputXs, inputYs) {
+    this.optimizer.minimize(() => {
+      const predictedYs = this.predict(inputXs);
+      return this.loss(predictedYs, inputYs);
+    });
   }
 }

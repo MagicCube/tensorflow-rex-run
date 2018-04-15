@@ -7,6 +7,10 @@ export default class GeneticModel extends Model {
     this.mutate(offspring);
   }
 
+  fit(chromosomes) {
+    this.train(chromosomes);
+  }
+
   select(chromosomes) {
     const parents = [chromosomes[0], chromosomes[1]];
     return parents;
