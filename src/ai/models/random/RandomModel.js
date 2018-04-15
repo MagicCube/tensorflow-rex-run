@@ -19,7 +19,7 @@ export default class RandomModel extends Model {
   }
 
   train() {
-    this.randomize()
+    this.randomize();
   }
 
   randomize() {
