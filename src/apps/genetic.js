@@ -42,7 +42,7 @@ function handleReset({ tRexes }) {
     const chromosomes = rankList.map((tRex) => tRex.model.getChromosome());
     // Clear rankList
     rankList.splice(0);
-    geneticModel.train(chromosomes);
+    geneticModel.fit(chromosomes);
     tRexes.forEach((tRex, i) => {
       tRex.model.setChromosome(chromosomes[i]);
     });

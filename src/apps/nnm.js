@@ -40,7 +40,7 @@ function handleReset({ tRexes }) {
     // Train the model before restarting.
     console.info('Training');
     tRexes.forEach((tRex) => {
-      tRex.model.train(training.inputs, training.labels);
+      tRex.model.fit(training.inputs, training.labels);
     });
   }
 }

@@ -34,7 +34,7 @@ function handleReset({ tRexes }) {
   } else {
     // Train the model before restarting.
     console.info('Training');
-    tRex.model.train(tRex.training.inputs, tRex.training.labels);
+    tRex.model.fit(tRex.training.inputs, tRex.training.labels);
   }
 }
 
