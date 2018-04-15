@@ -4,12 +4,19 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../game/constants';
 import { Runner } from '../game';
 import NNModel from '../ai/models/nn/NNModel';
 
+const T_REX_COUNT = 3;
+
 let runner = null;
+
+const training = {
+  inputs: [],
+  labels: []
+};
 
 function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
-    T_REX_COUNT: 3,
+    T_REX_COUNT,
     onReset: handleReset,
     onCrash: handleCrash,
     onRunning: handleRunning
@@ -28,16 +35,12 @@ function handleReset({ tRexes }) {
     tRexes.forEach((tRex) => {
       tRex.model = new NNModel();
       tRex.model.init();
-      tRex.training = {
-        inputs: [],
-        labels: []
-      };
     });
   } else {
     // Train the model before restarting.
     console.info('Training');
     tRexes.forEach((tRex) => {
-      tRex.model.train(tRex.training.inputs, tRex.training.labels);
+      tRex.model.train(training.inputs, training.labels);
     });
   }
 }
@@ -72,8 +75,8 @@ function handleCrash({ tRex }) {
     input = convertStateToVector(tRex.lastRunningState);
     label = [0, 1];
   }
-  tRex.training.inputs.push(input);
-  tRex.training.labels.push(label);
+  training.inputs.push(input);
+  training.labels.push(label);
 }
 
 function convertStateToVector(state) {
