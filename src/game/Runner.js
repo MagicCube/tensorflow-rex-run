@@ -320,9 +320,9 @@ export default class Runner {
 
     const lives = this.tRexGroup.lives();
     if (lives > 0) {
-      this.generationEl.innerText = `Generation #${Runner.generation} | T-Rex x ${this.tRexGroup.lives()}`;
+      this.generationEl.innerText = `GENERATION #${Runner.generation} | LIVE x ${this.tRexGroup.lives()}`;
     } else {
-      this.generationEl.innerText = 'GAME OVER';
+      this.generationEl.innerHTML = `<div style="color: red;">GENERATION #${Runner.generation}  |  GAME OVER</div>`;
     }
   }
 
