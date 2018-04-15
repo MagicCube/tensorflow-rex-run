@@ -5,8 +5,7 @@ import { Runner } from '../game';
 import GeneticModel from '../ai/models/genetic/GeneticModel';
 import RandomModel from '../ai/models/genetic/RandomModel';
 
-const trainingInputs = [];
-const trainingLabels = [];
+const T_REX_COUNT = 10;
 
 let runner = null;
 
@@ -16,7 +15,7 @@ const geneticModel = new GeneticModel();
 function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
-    T_REX_COUNT: 10,
+    T_REX_COUNT,
     onReset: handleReset,
     onCrash: handleCrash,
     onRunning: handleRunning

@@ -5,6 +5,8 @@ import { Runner } from '../game';
 import NNModel from '../ai/models/genetic-nn/NNModel';
 import GeneticModel from '../ai/models/genetic/GeneticModel';
 
+const T_REX_COUNT = 10;
+
 const geneticModel = new GeneticModel();
 const rankList = [];
 
@@ -13,7 +15,7 @@ let runner = null;
 function setup() {
   // Initialize the game Runner.
   runner = new Runner('.game', {
-    T_REX_COUNT: 4,
+    T_REX_COUNT,
     onReset: handleReset,
     onCrash: handleCrash,
     onRunning: handleRunning
