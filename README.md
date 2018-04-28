@@ -1,4 +1,4 @@
-# t-rex-run
+# tensorflow-rex-run
 
 A TensorFlow.js based AI player platform for T-Rex Runner.
 
