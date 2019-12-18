@@ -2,6 +2,8 @@
 
 A TensorFlow.js based AI player platform for T-Rex Runner.
 
+## About This Project (Chinese)
+https://zhuanlan.zhihu.com/p/35451395
 
 ## About T-Rex Runner Game
 
