@@ -170,6 +170,7 @@ export default class Runner {
     this.tRexGroup = new TrexGroup(this.config.T_REX_COUNT, this.canvas, this.spriteDef.TREX);
     this.tRexGroup.onRunning = this.config.onRunning;
     this.tRexGroup.onCrash = this.config.onCrash;
+    this.tRexGroup.onSuccess = this.config.onSuccess || noop;
     this.tRex = this.tRexGroup.tRexes[0];
 
     this.outerContainerEl.appendChild(this.containerEl);
@@ -320,9 +321,9 @@ export default class Runner {
 
     const lives = this.tRexGroup.lives();
     if (lives > 0) {
-      this.generationEl.innerText = `GENERATION #${Runner.generation} | LIVE x ${this.tRexGroup.lives()}`;
+      this.generationEl.innerText = `GENERATION（迭代次数） #${Runner.generation} | LIVE（存活个数） x ${this.tRexGroup.lives()}`;
     } else {
-      this.generationEl.innerHTML = `<div style="color: red;">GENERATION #${Runner.generation}  |  GAME OVER</div>`;
+      this.generationEl.innerHTML = `<div style="color: red;">GENERATION（迭代次数） #${Runner.generation}  |  GAME OVER</div>`;
     }
   }
 
