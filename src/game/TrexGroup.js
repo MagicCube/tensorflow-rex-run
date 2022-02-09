@@ -5,6 +5,7 @@ export default class TrexGroup {
   onReset = noop;
   onRunning = noop;
   onCrash = noop;
+  onSuccess = noop;
 
   constructor(count, canvas, spriteDef) {
     this.tRexes = [];
@@ -78,6 +79,7 @@ export default class TrexGroup {
               tRex.setDuck(true);
             }
           }
+          this.onSuccess({ tRex, state });
         }
       } else {
         crashes += 1;

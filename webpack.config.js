@@ -10,6 +10,7 @@ module.exports = {
   entry: {
     'genetic': ['./apps/genetic.js'],
     'genetic-nn': ['./apps/genetic-nn.js'],
+    'q-learning': ['./apps/q-learning.js'],
     nn: ['./apps/nn.js'],
     nnm: ['./apps/nnm.js'],
     random: ['./apps/random.js']
